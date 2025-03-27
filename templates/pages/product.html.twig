@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<div class="product-page">
+    <img src="{{ produit.image }}" alt="{{ produit.nom }}">
+    <div class="details">
+        <h1>{{ produit.nom }}</h1>
+        <p>{{ produit.description }}</p>
+        <p class="prix">{{ produit.prix }} €</p>
+        <a href="{{ path('cart_add', {'id': produit.id}) }}">Ajouter au panier</a>
+    </div>
+</div>
+{% endblock %}

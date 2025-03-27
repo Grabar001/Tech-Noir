@@ -1,0 +1,100 @@
+.homepage-desktop {
+  padding: 2rem;
+}
+.homepage-desktop .slideshow {
+  margin: 2rem 0;
+}
+.homepage-desktop .slideshow .slides {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+.homepage-desktop .slideshow .slides img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  scroll-snap-align: center;
+  margin-right: 1rem;
+  border-radius: 12px;
+}
+.homepage-desktop .categories h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+.homepage-desktop .categories .category-list {
+  display: flex;
+  gap: 1rem;
+}
+.homepage-desktop .categories .category-list .category {
+  padding: 1rem 1.5rem;
+  background-color: #F6F6F6;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.homepage-desktop .categories .category-list .category:hover {
+  background-color: #EBBA1A;
+  color: white;
+}
+.homepage-desktop .promos {
+  margin-top: 3rem;
+}
+.homepage-desktop .promos h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+.homepage-desktop .promos .products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+.homepage-desktop .promos .products-grid .product-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.homepage-desktop .promos .products-grid .product-card img {
+  max-height: 100px;
+  margin-bottom: 1rem;
+}
+.homepage-desktop .promos .products-grid .product-card h4 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.homepage-desktop .promos .products-grid .product-card p {
+  color: #750DC5;
+  font-weight: bold;
+}
+.homepage-desktop .promos .products-grid .product-card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background-color: #091D9E;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.homepage-desktop .footer {
+  background-color: #091D9E;
+  color: white;
+  padding: 1rem 2rem;
+  margin-top: 4rem;
+}
+.homepage-desktop .footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.homepage-desktop .footer .container nav a {
+  color: white;
+  margin-left: 1.5rem;
+  text-decoration: none;
+}
+.homepage-desktop .footer .container nav a:hover {
+  text-decoration: underline;
+}
+
+/*# sourceMappingURL=home.css.map */

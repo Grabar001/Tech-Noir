@@ -1,0 +1,298 @@
+.cart-page {
+  padding: 2rem;
+}
+.cart-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+.cart-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+.cart-page table thead {
+  background-color: #f0f0f0;
+}
+.cart-page table th, .cart-page table td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+.cart-page table img {
+  max-width: 60px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.cart-page h3 {
+  text-align: right;
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  color: #091D9E;
+}
+.cart-page a {
+  display: inline-block;
+  margin: 0.5rem 0.5rem 0 0;
+  padding: 0.7rem 1.2rem;
+  background-color: #091D9E;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+.cart-page a:hover {
+  background-color: #0b23b9;
+}
+
+.homepage-desktop {
+  padding: 2rem;
+}
+.homepage-desktop .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: white;
+}
+.homepage-desktop .header .logo {
+  font-family: "DISKET MONO", monospace;
+  font-size: 1.8rem;
+  color: #091D9E;
+}
+.homepage-desktop .header .logo span {
+  color: #750DC5;
+}
+.homepage-desktop .header .search-bar {
+  flex: 1;
+  margin: 0 2rem;
+}
+.homepage-desktop .header .search-bar input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.homepage-desktop .header .icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.homepage-desktop .header .icons a {
+  text-decoration: none;
+  color: #000;
+  font-size: 1.2rem;
+}
+.homepage-desktop .banner {
+  margin: 2rem 0;
+  position: relative;
+  background-color: #BCC5FF;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.homepage-desktop .banner .banner-text h2 {
+  font-size: 1.8rem;
+  color: #091D9E;
+  margin-bottom: 0.5rem;
+}
+.homepage-desktop .banner .banner-text p {
+  font-size: 1rem;
+  color: #000;
+}
+.homepage-desktop .banner img {
+  max-height: 150px;
+}
+.homepage-desktop .categories h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+.homepage-desktop .categories .category-list {
+  display: flex;
+  gap: 1rem;
+}
+.homepage-desktop .categories .category-list .category {
+  padding: 1rem 1.5rem;
+  background-color: #F6F6F6;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.homepage-desktop .categories .category-list .category:hover {
+  background-color: #EBBA1A;
+  color: white;
+}
+.homepage-desktop .promos {
+  margin-top: 3rem;
+}
+.homepage-desktop .promos h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+.homepage-desktop .promos .products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+.homepage-desktop .promos .products-grid .product-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.homepage-desktop .promos .products-grid .product-card img {
+  max-height: 100px;
+  margin-bottom: 1rem;
+}
+.homepage-desktop .promos .products-grid .product-card h4 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.homepage-desktop .promos .products-grid .product-card p {
+  color: #750DC5;
+  font-weight: bold;
+}
+.homepage-desktop .promos .products-grid .product-card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background-color: #091D9E;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.homepage-desktop .footer {
+  background-color: #091D9E;
+  color: white;
+  padding: 1rem 2rem;
+  margin-top: 4rem;
+}
+.homepage-desktop .footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.homepage-desktop .footer .container nav a {
+  color: white;
+  margin-left: 1.5rem;
+  text-decoration: none;
+}
+.homepage-desktop .footer .container nav a:hover {
+  text-decoration: underline;
+}
+
+.catalog-page {
+  padding: 2rem;
+}
+.catalog-page h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #750DC5;
+}
+.catalog-page .produit {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+.catalog-page .produit img {
+  max-width: 100px;
+  margin-right: 1rem;
+}
+.catalog-page .produit h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+.catalog-page .produit p {
+  font-size: 0.9rem;
+  color: #444;
+}
+.catalog-page .produit a {
+  margin-top: 1rem;
+  display: inline-block;
+  background-color: #091D9E;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.catalog-page .produit a:hover {
+  background-color: #0e2ab8;
+}
+
+.product-page {
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+}
+.product-page img {
+  max-width: 250px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.product-page .details h1 {
+  color: #260DC1;
+  font-size: 2rem;
+}
+.product-page .details p {
+  margin: 1rem 0;
+  font-size: 1rem;
+  color: #333;
+}
+.product-page .details .prix {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #EBBA1A;
+}
+.product-page .details a {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #091D9E;
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.product-page .details a:hover {
+  background-color: #0b23b9;
+}
+
+.confirmation-page {
+  padding: 2rem;
+  text-align: center;
+}
+.confirmation-page h1 {
+  font-size: 2.2rem;
+  color: #59006F;
+}
+.confirmation-page p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+.confirmation-page .total {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #091D9E;
+}
+.confirmation-page a {
+  margin-top: 1.5rem;
+  display: inline-block;
+  background-color: #091D9E;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.confirmation-page a:hover {
+  background-color: #0f2ab8;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #F6F8FC;
+}/*# sourceMappingURL=main.css.map */

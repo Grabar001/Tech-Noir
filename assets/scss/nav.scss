@@ -1,0 +1,44 @@
+.nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: white;
+  
+    .logo {
+      font-family: 'DISKET MONO';
+      font-size: 2rem;
+      color: #091D9E;
+  
+      span {
+        color: #750DC5;
+      }
+    }
+  
+    .search {
+      flex: 1;
+      margin: 0 2rem;
+  
+      input {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+      }
+    }
+  
+    .nav-icons {
+      display: flex;
+      gap: 1.5rem;
+  
+      a {
+        font-size: 1.1rem;
+        color: #000;
+        text-decoration: none;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }

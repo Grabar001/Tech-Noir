@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande confirmée{% endblock %}
+
+{% block body %}
+<div class="confirmation-page">
+    <h1>Merci pour votre commande !</h1>
+    <p class="total">Total : {{ total }} €</p>
+    <p>Votre commande a bien été enregistrée.</p>
+    <a href="{{ path('catalog') }}">Retour au catalogue</a>
+</div>
+{% endblock %}

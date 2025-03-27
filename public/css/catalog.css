@@ -1,0 +1,48 @@
+.catalog-page {
+  padding: 2rem;
+}
+
+.catalog-page h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #750DC5;
+}
+
+.catalog-page .produit {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.catalog-page .produit img {
+  max-width: 100px;
+  margin-right: 1rem;
+}
+
+.catalog-page .produit h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.catalog-page .produit p {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.catalog-page .produit a {
+  margin-top: 1rem;
+  display: inline-block;
+  background-color: #091D9E;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.catalog-page .produit a:hover {
+  background-color: #0e2ab8;
+} 
+
+/*# sourceMappingURL=catalog.css.map */

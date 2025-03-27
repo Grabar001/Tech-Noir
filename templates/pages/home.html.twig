@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - TECH NOIR
+{% endblock %}
+
+{% block body %}
+	<div class="homepage-desktop">
+
+		<header class="header">
+			<div class="logo">TECH
+				<span>NOIR</span>
+			</div>
+			<div class="search-bar">
+				<input type="text" placeholder="Recherche">
+			</div>
+			<div class="icons">
+				<a href="#">Catalogue</a>
+				<a href="#">🛒</a>
+				<a href="#">👤</a>
+			</div>
+		</header>
+
+		<section class="slideshow">
+			<div class="slides">
+				<img src="{{ asset('images/slideshow/2.avif') }}" alt="Slide 1">
+				<img src="{{ asset('images/slideshow/3.avif') }}" alt="Slide 2">
+			</div>
+		</section>
+
+		<section class="categories">
+			<h3>Catégories</h3>
+			<div class="category-list">
+				<div class="category">Smartphones</div>
+				<div class="category">TV</div>
+				<div class="category">Audio</div>
+				<div class="category">Accessoires</div>
+				<!-- можно подключить динамически -->
+			</div>
+		</section>
+
+		<section class="promos">
+			<h3>Promotions</h3>
+			<div class="products-grid">
+				{% for produit in produits %}
+					<div class="product-card">
+						<img src="{{ produit.image }}" alt="{{ produit.nom }}">
+						<h4>{{ produit.nom }}</h4>
+						<p>{{ produit.prix }}
+							€</p>
+						<a href="{{ path('product', {'id': produit.id}) }}">Voir</a>
+					</div>
+				{% endfor %}
+			</div>
+		</section>
+
+	</div>
+{% endblock %}
