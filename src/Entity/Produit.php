@@ -26,6 +26,15 @@ class Produit
     #[ORM\Column(length: 255)]
     private ?string $Image = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $reduction = null;
+
+    #[ORM\Column]
+    private ?bool $enStock = null;
+
+    #[ORM\Column]
+    private ?bool $isNew = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +84,42 @@ class Produit
     public function setImage(string $Image): static
     {
         $this->Image = $Image;
+
+        return $this;
+    }
+
+    public function getReduction(): ?int
+    {
+        return $this->reduction;
+    }
+
+    public function setReduction(?int $reduction): static
+    {
+        $this->reduction = $reduction;
+
+        return $this;
+    }
+
+    public function isEnStock(): ?bool
+    {
+        return $this->enStock;
+    }
+
+    public function setEnStock(bool $enStock): static
+    {
+        $this->enStock = $enStock;
+
+        return $this;
+    }
+
+    public function isNew(): ?bool
+    {
+        return $this->isNew;
+    }
+
+    public function setIsNew(bool $isNew): static
+    {
+        $this->isNew = $isNew;
 
         return $this;
     }

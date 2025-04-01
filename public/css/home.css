@@ -1,100 +1,132 @@
-.homepage-desktop {
-  padding: 2rem;
-}
-.homepage-desktop .slideshow {
-  margin: 2rem 0;
-}
-.homepage-desktop .slideshow .slides {
+.slideshow .slides {
   display: flex;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  gap: 1rem;
 }
-.homepage-desktop .slideshow .slides img {
-  width: 100%;
+
+.slideshow .slides img {
   max-height: 300px;
-  object-fit: cover;
-  scroll-snap-align: center;
-  margin-right: 1rem;
-  border-radius: 12px;
+  border-radius: 10px;
 }
-.homepage-desktop .categories h3 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
+
+.categories {
+  margin-top: 2rem;
 }
-.homepage-desktop .categories .category-list {
+
+.categories .category-list {
   display: flex;
   gap: 1rem;
 }
-.homepage-desktop .categories .category-list .category {
-  padding: 1rem 1.5rem;
-  background-color: #F6F6F6;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.homepage-desktop .categories .category-list .category:hover {
-  background-color: #EBBA1A;
-  color: white;
-}
-.homepage-desktop .promos {
-  margin-top: 3rem;
-}
-.homepage-desktop .promos h3 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-}
-.homepage-desktop .promos .products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.5rem;
-}
-.homepage-desktop .promos .products-grid .product-card {
-  background-color: white;
-  border-radius: 10px;
+
+.categories .category-list .category {
+  background: #F6F6F6;
   padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
   text-align: center;
 }
-.homepage-desktop .promos .products-grid .product-card img {
-  max-height: 100px;
-  margin-bottom: 1rem;
-}
-.homepage-desktop .promos .products-grid .product-card h4 {
-  font-size: 1rem;
+
+.categories .category-list .category img {
+  height: 60px;
   margin-bottom: 0.5rem;
 }
-.homepage-desktop .promos .products-grid .product-card p {
-  color: #750DC5;
+
+.promos {
+  margin-top: 2rem;
+}
+
+.promos .products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.promos .products-grid .product-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.promos .products-grid .product-card .discount {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: #EBBA1A;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
   font-weight: bold;
 }
-.homepage-desktop .promos .products-grid .product-card a {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.4rem 0.8rem;
-  background-color: #091D9E;
-  color: white;
-  border-radius: 6px;
-  text-decoration: none;
+
+.promos .products-grid .product-card .old-price {
+  text-decoration: line-through;
+  color: #999;
 }
-.homepage-desktop .footer {
-  background-color: #091D9E;
+
+.promos .products-grid .product-card .new-price {
+  color: #091D9E;
+  font-weight: bold;
+}
+
+.promos .products-grid .product-card .stock {
+  font-size: 0.9rem;
+  color: green;
+}
+
+.promos .products-grid .product-card button {
+  margin-top: 0.5rem;
+  background: #091D9E;
   color: white;
-  padding: 1rem 2rem;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.site-footer {
+  background-color: #0e0e2c;
+  color: #fff;
+  padding: 2rem 1.5rem;
   margin-top: 4rem;
 }
-.homepage-desktop .footer .container {
+
+.site-footer .footer-content {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  gap: 2rem;
+  align-items: flex-start;
 }
-.homepage-desktop .footer .container nav a {
-  color: white;
-  margin-left: 1.5rem;
+
+.site-footer .footer-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #6a0dad;
+  line-height: 1;
+}
+
+.site-footer .footer-logo span {
+  color: #fff;
+}
+
+.site-footer .footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.site-footer .footer-links a {
+  color: #ccc;
   text-decoration: none;
+  font-size: 0.95rem;
 }
-.homepage-desktop .footer .container nav a:hover {
-  text-decoration: underline;
+
+.site-footer .footer-links a:hover {
+  color: #fff;
 }
+
+.site-footer .footer-contact {
+  font-size: 0.85rem;
+  color: #bbb;
+} 
 
 /*# sourceMappingURL=home.css.map */

@@ -7,7 +7,9 @@
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-		<link rel="stylesheet" href="{{ asset('css/main.css') }}"> {% block stylesheets %}{% endblock %}
+		<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 
 		{% block javascripts %}
 			{% block importmap %}
@@ -16,32 +18,64 @@
 		{% endblock %}
 	</head>
 	<body>
-		{% block body %}
+		<header class="nav-bar">
+			<div class="logo">
+				<span class="line1">TECH</span><br>
+				<span class="line2">NOIR</span>
+			</div>
 
-			<header class="nav-bar">
-				<div class="logo">TECH
-					<span>NOIR</span>
-				</div>
-				<div class="search">
-					<input type="text" placeholder="Recherche...">
-				</div>
-				<div class="nav-icons">
-					<a href="{{ path('catalog') }}">Catalogue</a>
-					<a href="{{ path('cart') }}">🛒</a>
-					<a href="#">👤</a>
-				</div>
-			</header>
+			<div class="search-bar">
+				<i class="fas fa-search"></i>
+				<input type="text" placeholder="Recherche...">
+			</div>
 
-		{% endblock %}
+			<div class="nav-icons">
+				<a href="{{ path('catalog') }}">
+					<i class="fas fa-list"></i>
+					<span>Catalogue</span>
+				</a>
+				<a href="{{ path('cart') }}">
+					<i class="fas fa-shopping-cart"></i>
+					<span>Panier</span>
+				</a>
+				{% if app.user %}
+    <a href="{{ path('app_profile') }}">
+        <i class="fas fa-user"></i>
+        <span>Profil</span>
+    </a>
+    <a href="{{ path('app_logout') }}">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Déconnexion</span>
+    </a>
+{% else %}
+    <a href="{{ path('app_login') }}">
+        <i class="fas fa-sign-in-alt"></i>
+        <span>Connexion</span>
+    </a>
+    <a href="{{ path('app_register') }}">
+        <i class="fas fa-user-plus"></i>
+        <span>Inscription</span>
+    </a>
+{% endif %}
+			</div>
+		</header>
+		{% block body %}{% endblock %}
 	</body>
-	<footer class="footer">
-		<div class="container">
-			<p>© 2025 TECH NOIR. Tous droits réservés.</p>
-			<nav>
-				<a href="#">Mentions légales</a>
-				<a href="#">CGV</a>
-				<a href="#">Contact</a>
-			</nav>
+	<footer class="site-footer">
+		<div class="footer-content">
+			<div class="footer-logo">TECH<br><span>NOIR</span>
+			</div>
+			<div class="footer-links">
+				<a href="#">Catalogue</a>
+				<a href="#">Conditions Générales</a>
+				<a href="#">Mentions Légales</a>
+			</div>
+			<div class="footer-contact">
+				<p>Contact: contact@technoir.fr</p>
+				<p>©
+					{{ "now"|date("Y") }}
+					TECH NOIR</p>
+			</div>
 		</div>
 	</footer>
 </html>

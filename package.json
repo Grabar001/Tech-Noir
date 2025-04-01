@@ -6,9 +6,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "sass": "sass --watch assets/scss:public/css"
-  },
+  "build": "sass assets/scss/app.scss public/css/app.css",
+  "watch": "sass --watch assets/scss/app.scss:public/css/app.css"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

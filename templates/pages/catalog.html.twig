@@ -1,20 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Catalogue - TECH NOIR{% endblock %}
 
 {% block body %}
-<div class="catalog-page">
-    <h1>Catalogue des produits</h1>
-    <div class="produits">
-        {% for produit in produits %}
-            <div class="produit">
-                <img src="{{ produit.image }}" alt="{{ produit.nom }}">
-                <h2>{{ produit.nom }}</h2>
-                <p>{{ produit.description|slice(0, 80) ~ '...' }}</p>
-                <p><strong>{{ produit.prix }} €</strong></p>
-                <a href="{{ path('product', {'id': produit.id}) }}">Voir</a>
-            </div>
-        {% endfor %}
-    </div>
+<div class="catalogue-page">
+
+  <!-- 🧭 Навигация -->
+  <div class="breadcrumb">
+    <a href="{{ path('homepage') }}">Accueil</a> / <span>Smartphones</span>
+  </div>
+
+  <div class="catalogue-content">
+    
+    <!-- 🧰 ФИЛЬТРЫ -->
+    <aside class="filters">
+      <h3>Filtres</h3>
+      
+      <div class="filter-block">
+        <p>Prix, €</p>
+        <input type="range" min="1" max="10000">
+      </div>
+
+      <div class="filter-block">
+        <p>Mémoire intégrée</p>
+        <label><input type="checkbox"> 128 gb</label>
+        <label><input type="checkbox"> 256 gb</label>
+        <label><input type="checkbox"> 512 gb</label>
+      </div>
+
+      <div class="filter-block">
+        <p>Marque</p>
+        <label><input type="checkbox"> Apple</label>
+        <label><input type="checkbox"> Samsung</label>
+        <label><input type="checkbox"> Lenovo</label>
+      </div>
+
+    </aside>
+
+    <!-- 🧱 СПИСОК ТОВАРОВ -->
+    <section class="product-list">
+      {% for produit in produits %}
+        <div class="product-card">
+          {% if produit.reduction > 0 %}
+            <div class="badge discount">-{{ produit.reduction }}%</div>
+          {% elseif produit.isNew %}
+            <div class="badge new">NEW</div>
+          {% endif %}
+
+          <img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
+          <h4>{{ produit.nom }}</h4>
+          <p class="price">
+            {% if produit.reduction > 0 %}
+              <span class="old-price">{{ produit.prixAvantReduction }} €</span>
+            {% endif %}
+            <span class="new-price">{{ produit.prix }} €</span>
+          </p>
+          <p class="stock">{% if produit.enStock %}En stock{% else %}Rupture{% endif %}</p>
+
+          <form action="{{ path('cart_add', { id: produit.id }) }}" method="POST">
+  <button type="submit">Ajouter au panier</button>
+</form>
+        </div>
+      {% endfor %}
+    </section>
+
+  </div>
+
 </div>
 {% endblock %}

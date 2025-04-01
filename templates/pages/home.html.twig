@@ -6,35 +6,61 @@
 {% block body %}
 	<div class="homepage-desktop">
 
-		<header class="header">
-			<div class="logo">TECH
-				<span>NOIR</span>
+		{# <header class="nav-bar">
+			<div class="logo">
+				<span class="line1">TECH</span><br>
+				<span class="line2">NOIR</span>
 			</div>
+
 			<div class="search-bar">
-				<input type="text" placeholder="Recherche">
+				<i class="fas fa-search"></i>
+				<input type="text" placeholder="Recherche...">
 			</div>
-			<div class="icons">
-				<a href="#">Catalogue</a>
-				<a href="#">🛒</a>
-				<a href="#">👤</a>
+
+			<div class="nav-icons">
+				<a href="{{ path('catalog') }}">
+					<i class="fas fa-list"></i>
+					<span>Catalogue</span>
+				</a>
+				<a href="{{ path('cart') }}">
+					<i class="fas fa-shopping-cart"></i>
+					<span>Panier</span>
+				</a>
+				<a href="#">
+					<i class="fas fa-user"></i>
+					<span>Profil</span>
+				</a>
 			</div>
-		</header>
+		</header> #}
 
 		<section class="slideshow">
 			<div class="slides">
-				<img src="{{ asset('images/slideshow/2.avif') }}" alt="Slide 1">
-				<img src="{{ asset('images/slideshow/3.avif') }}" alt="Slide 2">
+				<img src="{{ asset('images/slideshow/Slide_1.webp') }}" alt="Slide 1">
+				<img src="{{ asset('images/slideshow/Slide_2.webp') }}" alt="Slide 2">
+				<img src="{{ asset('images/slideshow/Slide_3.webp') }}" alt="Slide 3">
+				<img src="{{ asset('images/slideshow/Slide_4.webp') }}" alt="Slide 4">
 			</div>
 		</section>
 
 		<section class="categories">
-			<h3>Catégories</h3>
+			<h3>Catalogue</h3>
 			<div class="category-list">
-				<div class="category">Smartphones</div>
-				<div class="category">TV</div>
-				<div class="category">Audio</div>
-				<div class="category">Accessoires</div>
-				<!-- можно подключить динамически -->
+				<div class="category">
+					<img src="{{ asset('images/categories/smartphones.png') }}" alt="">
+					<p>Smartphones</p>
+				</div>
+				<div class="category">
+					<img src="{{ asset('images/categories/tv.png') }}" alt="">
+					<p>TV</p>
+				</div>
+				<div class="category">
+					<img src="{{ asset('images/categories/ordinateurs_portables.png') }}" alt="">
+					<p>Ordinateurs portables</p>
+				</div>
+				<div class="category">
+					<img src="{{ asset('images/categories/haut_parleurs.png') }}" alt="">
+					<p>Haut Parleurs</p>
+				</div>
 			</div>
 		</section>
 
@@ -43,11 +69,18 @@
 			<div class="products-grid">
 				{% for produit in produits %}
 					<div class="product-card">
-						<img src="{{ produit.image }}" alt="{{ produit.nom }}">
+						<div class="discount">-{{ produit.reduction }}%</div>
+						<img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
 						<h4>{{ produit.nom }}</h4>
-						<p>{{ produit.prix }}
+						<p class="old-price">{{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }}
 							€</p>
-						<a href="{{ path('product', {'id': produit.id}) }}">Voir</a>
+						<p class="new-price">{{ produit.prix }}
+							€</p>
+						<p class="stock">
+							{% if produit.enStock %}✅ En stock{% else %}❌ Rupture
+							{% endif %}
+						</p>
+						<button>Ajouter au panier</button>
 					</div>
 				{% endfor %}
 			</div>

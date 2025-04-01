@@ -9,13 +9,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'homepage')]
     public function index(ProduitRepository $produitRepository): Response
     {
-        $produits = $produitRepository->findBy([], limit: 4);
+        $produits = $produitRepository->findAll();
+    
         return $this->render('pages/home.html.twig', [
-            'title' => 'Principal - TECH NOIR',
-            'produits' => $produits,
+            'title' => 'Accueil TECH NOIR',
+            'produits' => $produits
         ]);
     }
 }
