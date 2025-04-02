@@ -3,10 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Categorie;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Produit
 {
     #[ORM\Id]
@@ -23,7 +28,7 @@ class Produit
     #[ORM\Column]
     private ?float $Prix = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $Image = null;
 
     #[ORM\Column(nullable: true)]
@@ -34,6 +39,13 @@ class Produit
 
     #[ORM\Column]
     private ?bool $isNew = null;
+
+    #[ORM\ManyToOne(inversedBy: 'produits')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Categorie $categorie = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
 
     public function getId(): ?int
     {
@@ -122,5 +134,39 @@ class Produit
         $this->isNew = $isNew;
 
         return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function generateSlug(): void
+    {
+        if ($this->Nom) {
+            $slugger = new \Symfony\Component\String\Slugger\AsciiSlugger();
+            $this->slug = strtolower($slugger->slug($this->Nom));
+        }
     }
 }

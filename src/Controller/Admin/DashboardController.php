@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Categorie;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -30,5 +31,6 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Produits', 'fas fa-box', Produit::class);
+        yield MenuItem::linkToCrud('Catégories', 'fas fa-tags', Categorie::class);
     }
 }
