@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Categorie;
+use App\Form\FiltreType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -13,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 
 class CategorieCrudController extends AbstractCrudController
 {
@@ -25,8 +28,27 @@ class CategorieCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
+
             TextField::new('nom'),
-            TextField::new('slug')->hideOnIndex(),
+
+            TextField::new('slug')->onlyOnDetail(),
+
+            ImageField::new('image')
+                ->setBasePath('/uploads/categories')
+                ->setUploadDir('public/uploads/categories')
+                ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
+                ->setRequired(false),
+
+            CollectionField::new('filtres')
+                ->setLabel('Filtres de cette catégorie')
+                ->onlyOnForms()
+                ->setEntryType(FiltreType::class) // 👈 форма с вложенными значениями
+                ->setEntryIsComplex(true)
+                ->allowAdd()
+                ->allowDelete()
+                ->setFormTypeOptions([
+                    'by_reference' => false,
+                ]),
         ];
     }
 

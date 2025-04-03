@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue complet - TECH NOIR{% endblock %}
+
+{% block body %}
+<div class="catalog-all">
+    <h1>Catalogue complet</h1>
+    <div class="products-grid">
+        {% for produit in produits %}
+            <div class="product-card">
+                {% if produit.reduction %}
+                    <div class="discount">-{{ produit.reduction }}%</div>
+                {% endif %}
+                <img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
+                <h4>{{ produit.nom }}</h4>
+                {% if produit.reduction %}
+                    <p class="old-price">
+                        {{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }} €
+                    </p>
+                {% endif %}
+                <p class="new-price">{{ produit.prix }} €</p>
+                <p class="stock">
+                    {% if produit.enStock %}✅ En stock{% else %}❌ Rupture{% endif %}
+                </p>
+                <button>Ajouter au panier</button>
+            </div>
+        {% else %}
+            <p>Aucun produit trouvé.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

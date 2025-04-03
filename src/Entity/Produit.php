@@ -40,11 +40,26 @@ class Produit
     #[ORM\Column]
     private ?bool $isNew = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $marque = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $memoire = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cpu = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ecran = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $resolution = null;
+
     #[ORM\ManyToOne(inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Categorie $categorie = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     public function getId(): ?int
@@ -164,9 +179,9 @@ class Produit
     #[ORM\PreUpdate]
     public function generateSlug(): void
     {
-        if ($this->Nom) {
-            $slugger = new \Symfony\Component\String\Slugger\AsciiSlugger();
-            $this->slug = strtolower($slugger->slug($this->Nom));
+        if (!$this->slug && $this->Nom) {
+            $slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $this->Nom), '-'));
+            $this->slug = $slug;
         }
     }
 }

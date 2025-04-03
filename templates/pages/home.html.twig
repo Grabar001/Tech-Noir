@@ -1,90 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil - TECH NOIR
-{% endblock %}
+{% block title %}Accueil - TECH NOIR{% endblock %}
 
 {% block body %}
-	<div class="homepage-desktop">
+<div class="homepage-desktop">
 
-		{# <header class="nav-bar">
-			<div class="logo">
-				<span class="line1">TECH</span><br>
-				<span class="line2">NOIR</span>
-			</div>
+    {# Слайдер баннеров #}
+    <section class="slideshow">
+        <div class="slides">
+            <img src="{{ asset('images/slideshow/Slide_1.webp') }}" alt="Slide 1">
+            <img src="{{ asset('images/slideshow/Slide_2.webp') }}" alt="Slide 2">
+            <img src="{{ asset('images/slideshow/Slide_3.webp') }}" alt="Slide 3">
+            <img src="{{ asset('images/slideshow/Slide_4.webp') }}" alt="Slide 4">
+        </div>
+    </section>
 
-			<div class="search-bar">
-				<i class="fas fa-search"></i>
-				<input type="text" placeholder="Recherche...">
-			</div>
+    {# Категории динамически из базы #}
+    <section class="categories">
+        <h3>Catalogue</h3>
+        <div class="category-list">
+            {% for categorie in categories %}
+                <div class="category">
+                    <a href="{{ path('catalog', { slug: categorie.slug }) }}">
+                        <img src="{{ asset('uploads/categories/' ~ categorie.image) }}" alt="{{ categorie.nom }}">
+                        <p>{{ categorie.nom }}</p>
+                    </a>
+                </div>
+            {% else %}
+                <p>Aucune catégorie trouvée.</p>
+            {% endfor %}
+        </div>
+    </section>
 
-			<div class="nav-icons">
-				<a href="{{ path('catalog') }}">
-					<i class="fas fa-list"></i>
-					<span>Catalogue</span>
-				</a>
-				<a href="{{ path('cart') }}">
-					<i class="fas fa-shopping-cart"></i>
-					<span>Panier</span>
-				</a>
-				<a href="#">
-					<i class="fas fa-user"></i>
-					<span>Profil</span>
-				</a>
-			</div>
-		</header> #}
+    {# Промо-блок с товарами #}
+    <section class="promos">
+        <h3>Promotion</h3>
+        <div class="products-grid">
+            {% for produit in produits %}
+                <div class="product-card">
+                    {% if produit.reduction %}
+                        <div class="discount">-{{ produit.reduction }}%</div>
+                    {% endif %}
 
-		<section class="slideshow">
-			<div class="slides">
-				<img src="{{ asset('images/slideshow/Slide_1.webp') }}" alt="Slide 1">
-				<img src="{{ asset('images/slideshow/Slide_2.webp') }}" alt="Slide 2">
-				<img src="{{ asset('images/slideshow/Slide_3.webp') }}" alt="Slide 3">
-				<img src="{{ asset('images/slideshow/Slide_4.webp') }}" alt="Slide 4">
-			</div>
-		</section>
+                    <img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
+                    <h4>{{ produit.nom }}</h4>
 
-		<section class="categories">
-			<h3>Catalogue</h3>
-			<div class="category-list">
-				<div class="category">
-					<img src="{{ asset('images/categories/smartphones.png') }}" alt="">
-					<p>Smartphones</p>
-				</div>
-				<div class="category">
-					<img src="{{ asset('images/categories/tv.png') }}" alt="">
-					<p>TV</p>
-				</div>
-				<div class="category">
-					<img src="{{ asset('images/categories/ordinateurs_portables.png') }}" alt="">
-					<p>Ordinateurs portables</p>
-				</div>
-				<div class="category">
-					<img src="{{ asset('images/categories/haut_parleurs.png') }}" alt="">
-					<p>Haut Parleurs</p>
-				</div>
-			</div>
-		</section>
+                    {% if produit.reduction %}
+                        <p class="old-price">
+                            {{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }} €
+                        </p>
+                    {% endif %}
+                    <p class="new-price">{{ produit.prix }} €</p>
 
-		<section class="promos">
-			<h3>Promotions</h3>
-			<div class="products-grid">
-				{% for produit in produits %}
-					<div class="product-card">
-						<div class="discount">-{{ produit.reduction }}%</div>
-						<img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
-						<h4>{{ produit.nom }}</h4>
-						<p class="old-price">{{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }}
-							€</p>
-						<p class="new-price">{{ produit.prix }}
-							€</p>
-						<p class="stock">
-							{% if produit.enStock %}✅ En stock{% else %}❌ Rupture
-							{% endif %}
-						</p>
-						<button>Ajouter au panier</button>
-					</div>
-				{% endfor %}
-			</div>
-		</section>
+                    <p class="stock">
+                        {% if produit.enStock %}
+                            ✅ En stock
+                        {% else %}
+                            ❌ Rupture
+                        {% endif %}
+                    </p>
 
-	</div>
+                    <button>Ajouter au panier</button>
+                </div>
+            {% else %}
+                <p>Aucun produit en promotion actuellement.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
 {% endblock %}

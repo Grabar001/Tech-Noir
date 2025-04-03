@@ -29,45 +29,53 @@ class ProduitCrudController extends AbstractCrudController
         return Produit::class;
     }
 
-    
+
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
 
-        TextField::new('Nom'),
-        TextField::new('slug')->hideOnIndex()->hideWhenCreating(),
-        TextareaField::new('Description'),
-        MoneyField::new('Prix')->setCurrency('EUR'),
-        IntegerField::new('reduction'),
+            TextField::new('Nom'),
+            TextField::new('slug')->onlyOnDetail(), 
+            TextareaField::new('Description'),
+            MoneyField::new('Prix')->setCurrency('EUR'),
 
-        BooleanField::new('isNew')
-            ->renderAsSwitch(false)
-            ->setLabel('Nouveau'),
+            BooleanField::new('isNew')
+                ->setLabel('🆕 Nouveau')
+                ->formatValue(fn($value) => $value ? 'Oui' : 'Non'),
 
-        BooleanField::new('enStock')
-            ->renderAsSwitch(false)
-            ->setLabel('En stock'),
+            TextField::new('reduction')
+                ->setLabel('Réduction')
+                ->formatValue(fn($value) => $value > 0 ? "🟢 -{$value}%" : '—')
+                ->onlyOnIndex(),
 
-        AssociationField::new('categorie'),
+            IntegerField::new('reduction')
+                ->setLabel('Réduction')
+                ->onlyOnForms(),
 
-        ImageField::new('Image')
-            ->setBasePath('/uploads/produits')
-            ->setUploadDir('public/uploads/produits')
-            ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
-            ->setRequired(false),
-            
+            BooleanField::new('enStock')
+                ->renderAsSwitch(false)
+                ->setLabel('En stock'),
+
+            AssociationField::new('categorie')->setLabel('Catégorie'),
+
+            ImageField::new('Image')
+                ->setBasePath('/uploads/produits')
+                ->setUploadDir('public/uploads/produits')
+                ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
+                ->setRequired(false),
+
         ];
     }
 
     public function configureFilters(Filters $filters): Filters
-{
-    return $filters
-        ->add(EntityFilter::new('categorie'))
-        ->add(BooleanFilter::new('isNew'))
-        ->add(BooleanFilter::new('enStock'))
-        ->add(NumericFilter::new('reduction'))
-        ->add(NumericFilter::new('Prix'));
-}
+    {
+        return $filters
+            ->add(EntityFilter::new('categorie'))
+            ->add(BooleanFilter::new('isNew'))
+            ->add(BooleanFilter::new('enStock'))
+            ->add(NumericFilter::new('reduction'))
+            ->add(NumericFilter::new('Prix'));
+    }
 }

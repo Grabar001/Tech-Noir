@@ -1,70 +1,109 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catalogue - TECH NOIR{% endblock %}
+{% block title %}{{ categorie.nom }} | Catalogue{% endblock %}
 
 {% block body %}
-<div class="catalogue-page">
+<div class="catalog-page">
 
-  <!-- 🧭 Навигация -->
-  <div class="breadcrumb">
-    <a href="{{ path('homepage') }}">Accueil</a> / <span>Smartphones</span>
-  </div>
+    <nav class="breadcrumb">
+        <a href="{{ path('homepage') }}">Accueil</a> / <span>{{ categorie.nom }}</span>
+    </nav>
 
-  <div class="catalogue-content">
-    
-    <!-- 🧰 ФИЛЬТРЫ -->
-    <aside class="filters">
-      <h3>Filtres</h3>
-      
-      <div class="filter-block">
-        <p>Prix, €</p>
-        <input type="range" min="1" max="10000">
-      </div>
+    <div class="catalog-container">
+        <aside class="filters">
 
-      <div class="filter-block">
-        <p>Mémoire intégrée</p>
-        <label><input type="checkbox"> 128 gb</label>
-        <label><input type="checkbox"> 256 gb</label>
-        <label><input type="checkbox"> 512 gb</label>
-      </div>
+            {% if categorie.slug == 'smartphones' %}
+                <h4>Prix, €</h4>
+                <input type="range" min="100" max="2000" step="10">
 
-      <div class="filter-block">
-        <p>Marque</p>
-        <label><input type="checkbox"> Apple</label>
-        <label><input type="checkbox"> Samsung</label>
-        <label><input type="checkbox"> Lenovo</label>
-      </div>
+                <h4>Mémoire intégrée</h4>
+                <ul>
+                    <li><input type="checkbox" name="memoire" value="32"> 32 Go</li>
+                    <li><input type="checkbox" name="memoire" value="64"> 64 Go</li>
+                    <li><input type="checkbox" name="memoire" value="128"> 128 Go</li>
+                </ul>
 
-    </aside>
+                <h4>Marque</h4>
+                <ul>
+                    <li><input type="checkbox" name="marque" value="Apple"> Apple</li>
+                    <li><input type="checkbox" name="marque" value="Samsung"> Samsung</li>
+                    <li><input type="checkbox" name="marque" value="Honor"> Honor</li>
+                </ul>
 
-    <!-- 🧱 СПИСОК ТОВАРОВ -->
-    <section class="product-list">
-      {% for produit in produits %}
-        <div class="product-card">
-          {% if produit.reduction > 0 %}
-            <div class="badge discount">-{{ produit.reduction }}%</div>
-          {% elseif produit.isNew %}
-            <div class="badge new">NEW</div>
-          {% endif %}
+                <h4>Nombre de cœurs</h4>
+                <ul>
+                    <li><input type="checkbox" name="coeurs" value="4"> 4</li>
+                    <li><input type="checkbox" name="coeurs" value="6"> 6</li>
+                    <li><input type="checkbox" name="coeurs" value="8"> 8</li>
+                </ul>
 
-          <img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
-          <h4>{{ produit.nom }}</h4>
-          <p class="price">
-            {% if produit.reduction > 0 %}
-              <span class="old-price">{{ produit.prixAvantReduction }} €</span>
+            {% elseif categorie.slug == 'ordinateurs-portables' %}
+                <h4>RAM</h4>
+                <ul>
+                    <li><input type="checkbox" name="ram" value="8"> 8 Go</li>
+                    <li><input type="checkbox" name="ram" value="16"> 16 Go</li>
+                </ul>
+
+                <h4>Type de stockage</h4>
+                <ul>
+                    <li><input type="checkbox" name="stockage" value="ssd"> SSD</li>
+                    <li><input type="checkbox" name="stockage" value="hdd"> HDD</li>
+                </ul>
+
+            {% elseif categorie.slug == 'tv' %}
+                <h4>Résolution</h4>
+                <ul>
+                    <li><input type="checkbox" name="resolution" value="full-hd"> Full HD</li>
+                    <li><input type="checkbox" name="resolution" value="4k"> 4K</li>
+                </ul>
+
+                <h4>Taille de l’écran</h4>
+                <ul>
+                    <li><input type="checkbox" name="taille" value="32"> 32"</li>
+                    <li><input type="checkbox" name="taille" value="55"> 55"</li>
+                    <li><input type="checkbox" name="taille" value="65"> 65"</li>
+                </ul>
+
+            {% else %}
+                <p>Filtres indisponibles pour cette catégorie.</p>
             {% endif %}
-            <span class="new-price">{{ produit.prix }} €</span>
-          </p>
-          <p class="stock">{% if produit.enStock %}En stock{% else %}Rupture{% endif %}</p>
 
-          <form action="{{ path('cart_add', { id: produit.id }) }}" method="POST">
-  <button type="submit">Ajouter au panier</button>
-</form>
-        </div>
-      {% endfor %}
-    </section>
+        </aside>
 
-  </div>
+        <main class="catalog-products">
+            <h2>{{ categorie.nom }}</h2>
+            <div class="products-grid">
+                {% for produit in produits %}
+                    <div class="product-card">
+                        {% if produit.reduction %}
+                            <div class="discount">-{{ produit.reduction }}%</div>
+                        {% endif %}
+                        {% if produit.isNew %}
+                            <div class="badge">NEW</div>
+                        {% endif %}
 
+                        <img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
+                        <h4>{{ produit.nom }}</h4>
+
+                        {% if produit.reduction %}
+                            <p class="old-price">
+                                {{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }} €
+                            </p>
+                        {% endif %}
+
+                        <p class="new-price">{{ produit.prix }} €</p>
+
+                        <p class="stock">
+                            {% if produit.enStock %}✅ En stock{% else %}❌ Rupture{% endif %}
+                        </p>
+
+                        <button>Ajouter au panier</button>
+                    </div>
+                {% else %}
+                    <p>Aucun produit dans cette catégorie.</p>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
 </div>
 {% endblock %}
