@@ -12,9 +12,7 @@
 
 
 		{% block javascripts %}
-			{% block importmap %}
-				{{ importmap('app') }}
-			{% endblock %}
+			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
 	<body>
@@ -39,24 +37,24 @@
 					<span>Panier</span>
 				</a>
 				{% if app.user %}
-    <a href="{{ path('app_profile') }}">
-        <i class="fas fa-user"></i>
-        <span>Profil</span>
-    </a>
-    <a href="{{ path('app_logout') }}">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Déconnexion</span>
-    </a>
-{% else %}
-    <a href="{{ path('app_login') }}">
-        <i class="fas fa-sign-in-alt"></i>
-        <span>Connexion</span>
-    </a>
-    <a href="{{ path('app_register') }}">
-        <i class="fas fa-user-plus"></i>
-        <span>Inscription</span>
-    </a>
-{% endif %}
+					<a href="{{ path('app_profile') }}">
+						<i class="fas fa-user"></i>
+						<span>Profil</span>
+					</a>
+					<a href="{{ path('app_logout') }}">
+						<i class="fas fa-sign-out-alt"></i>
+						<span>Déconnexion</span>
+					</a>
+				{% else %}
+					<a href="{{ path('app_login') }}">
+						<i class="fas fa-sign-in-alt"></i>
+						<span>Connexion</span>
+					</a>
+					<a href="{{ path('app_register') }}">
+						<i class="fas fa-user-plus"></i>
+						<span>Inscription</span>
+					</a>
+				{% endif %}
 			</div>
 		</header>
 		{% block body %}{% endblock %}

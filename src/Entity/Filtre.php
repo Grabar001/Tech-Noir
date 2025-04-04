@@ -25,7 +25,7 @@ class Filtre
     /**
      * @var Collection<int, FiltreValeur>
      */
-    #[ORM\OneToMany(targetEntity: FiltreValeur::class, mappedBy: 'filtre', orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'filtre', targetEntity: FiltreValeur::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $filtreValeurs;
 
     public function __construct()
@@ -95,5 +95,19 @@ class Filtre
     public function __toString(): string
     {
         return $this->nom ?? '';
+    }
+
+    #[ORM\Column(type: 'string', length: 50)]
+    private ?string $champ = null;
+
+    public function getChamp(): ?string
+    {
+        return $this->champ;
+    }
+
+    public function setChamp(string $champ): self
+    {
+        $this->champ = $champ;
+        return $this;
     }
 }

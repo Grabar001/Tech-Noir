@@ -1,0 +1,5 @@
+easy_admin:
+    assets:
+        webpack_encore:
+            entrypoints:
+                - app

@@ -6,14 +6,28 @@
     "test": "tests"
   },
   "scripts": {
-  "build": "sass assets/scss/app.scss public/css/app.css",
-  "watch": "sass --watch assets/scss/app.scss:public/css/app.css"
-},
+    "build": "sass assets/scss/app.scss public/css/app.css",
+    "watch": "sass --watch assets/scss/app.scss:public/css/app.css"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "sass": "^1.86.0"
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@hotwired/turbo": "^7.1.1 || ^8.0",
+    "@symfony/stimulus-bridge": "^3.2.0",
+    "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
+    "@symfony/webpack-encore": "^5.1.0",
+    "core-js": "^3.41.0",
+    "regenerator-runtime": "^0.14.1",
+    "sass": "^1.86.0",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-notifier": "^1.15.0"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2"
   }
 }

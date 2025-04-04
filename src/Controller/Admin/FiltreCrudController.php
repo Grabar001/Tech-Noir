@@ -25,16 +25,16 @@ class FiltreCrudController extends AbstractCrudController
             AssociationField::new('categorie')
                 ->setLabel('Catégorie'),
 
-            CollectionField::new('filtreValeurs')
-                ->setLabel('Valeurs possibles')
-                ->onlyOnForms()
-                ->setEntryType(FiltreValeurType::class) 
-                ->setEntryIsComplex(true)
-                ->allowAdd()
-                ->allowDelete()
+            AssociationField::new('filtreValeurs')
+                ->setLabel('Valeurs disponibles')
                 ->setFormTypeOptions([
+                    'multiple' => true,
                     'by_reference' => false,
                 ]),
+
+            TextField::new('champ')
+                ->setLabel('Nom technique (champ de Produit)')
+                ->setHelp('Ex: memoire, marque, tailleEcran')
         ];
     }
 }

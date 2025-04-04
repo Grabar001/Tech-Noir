@@ -35,7 +35,7 @@ class Categorie
     /**
      * @var Collection<int, Filtre>
      */
-    #[ORM\OneToMany(targetEntity: Filtre::class, mappedBy: 'categorie')]
+    #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Filtre::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $filtres;
 
     public function __construct()
