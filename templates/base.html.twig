@@ -6,10 +6,10 @@
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
+
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 		<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
@@ -22,20 +22,26 @@
 				<span class="line2">NOIR</span>
 			</div>
 
-			<div class="search-bar">
+			<form class="search-bar" action="{{ path('search') }}" method="get">
 				<i class="fas fa-search"></i>
-				<input type="text" placeholder="Recherche...">
-			</div>
+				<input type="text" name="q" placeholder="Recherche..." value="{{ app.request.get('q') }}">
+			</form>
 
 			<div class="nav-icons">
+				<a href="{{ path('homepage') }}">
+					<i class="fas fa-house"></i>
+					<span>Accueil</span>
+				</a>
 				<a href="{{ path('catalog_all') }}">
 					<i class="fas fa-list"></i>
 					<span>Catalogue</span>
 				</a>
+
 				<a href="{{ path('cart') }}">
 					<i class="fas fa-shopping-cart"></i>
 					<span>Panier</span>
 				</a>
+
 				{% if app.user %}
 					<a href="{{ path('app_profile') }}">
 						<i class="fas fa-user"></i>
@@ -55,16 +61,27 @@
 						<span>Inscription</span>
 					</a>
 				{% endif %}
+
+				{# ✅ Админка — доступна только для админа #}
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('admin') }}">
+						<i class="fas fa-cog"></i>
+						<span>Admin</span>
+					</a>
+				{% endif %}
 			</div>
 		</header>
+
 		{% block body %}{% endblock %}
 	</body>
+
 	<footer class="site-footer">
 		<div class="footer-content">
-			<div class="footer-logo">TECH<br><span>NOIR</span>
+			<div class="footer-logo">
+				TECH<br><span>NOIR</span>
 			</div>
 			<div class="footer-links">
-				<a href="#">Catalogue</a>
+				<a href="{{ path('catalog_all') }}">Catalogue</a>
 				<a href="#">Conditions Générales</a>
 				<a href="#">Mentions Légales</a>
 			</div>

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultats de recherche : {{ term }}{% endblock %}
+
+{% block body %}
+    <div class="catalogue-page">
+        <h1>Résultats de recherche pour : <em>{{ term }}</em></h1>
+
+        <div class="products products-grid">
+            {% for produit in produits %}
+                <div class="product-card">
+                    {% if produit.reduction %}
+                        <div class="badge discount">-{{ produit.reduction }}%</div>
+                    {% endif %}
+                    {% if produit.isNew %}
+                        <div class="badge new">NEW</div>
+                    {% endif %}
+                    <img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
+                    <h4>{{ produit.nom }}</h4>
+                    {% if produit.reduction %}
+                        <p class="old-price">{{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }} €</p>
+                    {% endif %}
+                    <p class="new-price">{{ produit.prix }} €</p>
+                    <p class="stock">{% if produit.enStock %}✅ En stock{% else %}❌ Rupture{% endif %}</p>
+                    <form action="{{ path('cart_add', {'id': produit.id}) }}" method="post">
+                        <button type="submit">Ajouter au panier</button>
+                    </form>
+                </div>
+            {% else %}
+                <p>Aucun produit trouvé.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

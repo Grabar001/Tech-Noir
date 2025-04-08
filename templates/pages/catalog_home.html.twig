@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue - TECH NOIR
+{% endblock %}
+
+{% block body %}
+	<div class="catalogue-page">
+		<h1>Catalogue</h1>
+
+		<div class="category-list">
+			{% for categorie in categories %}
+				<div class="category-card">
+					<a href="{{ path('catalog', {'slug': categorie.slug}) }}">
+						{% if categorie.image %}
+							<img src="{{ asset('uploads/categories/' ~ categorie.image) }}" alt="{{ categorie.nom }}">
+						{% endif %}
+						<h3>{{ categorie.nom }}</h3>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

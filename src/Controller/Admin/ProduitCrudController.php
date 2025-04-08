@@ -18,8 +18,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\NumericFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-
-
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Exception\EntityRemoveException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 
 class ProduitCrudController extends AbstractCrudController
@@ -37,7 +43,7 @@ class ProduitCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
 
             TextField::new('Nom'),
-            TextField::new('slug')->onlyOnDetail(), 
+            TextField::new('slug')->onlyOnDetail(),
             TextareaField::new('Description'),
             MoneyField::new('Prix')->setCurrency('EUR'),
 
@@ -45,14 +51,15 @@ class ProduitCrudController extends AbstractCrudController
                 ->setLabel('🆕 Nouveau')
                 ->formatValue(fn($value) => $value ? 'Oui' : 'Non'),
 
-            TextField::new('reduction')
-                ->setLabel('Réduction')
-                ->formatValue(fn($value) => $value > 0 ? "🟢 -{$value}%" : '—')
-                ->onlyOnIndex(),
-
             IntegerField::new('reduction')
-                ->setLabel('Réduction')
-                ->onlyOnForms(),
+                ->setLabel('Réduction (%)')
+                ->formatValue(function ($value) {
+                    if (is_numeric($value) && $value > 0) {
+                        return "🟢 -{$value}%";
+                    }
+
+                    return '—';
+                }),
 
             BooleanField::new('enStock')
                 ->renderAsSwitch(false)
@@ -77,5 +84,31 @@ class ProduitCrudController extends AbstractCrudController
             ->add(BooleanFilter::new('enStock'))
             ->add(NumericFilter::new('reduction'))
             ->add(NumericFilter::new('Prix'));
+    }
+
+
+
+    public function deleteEntity(EntityManagerInterface $entityManager, $entity): void
+    {
+        if (count($entity->getCommandeProduits()) > 0) {
+            throw new EntityRemoveException(
+                'Impossible de supprimer ce produit car il est associé à une ou plusieurs commandes.'
+            );
+        }
+
+        parent::deleteEntity($entityManager, $entity);
+    }
+    public function configureActions(Actions $actions): Actions
+    {
+        $goHome = Action::new('goHome', '🏠 Accueil du site')
+            ->linkToUrl('/')
+            ->setHtmlAttributes([
+                'target' => '_blank',
+                'rel' => 'noopener noreferrer',
+                'class' => 'btn btn-primary',
+            ]);
+
+        return $actions
+            ->add(Crud::PAGE_INDEX, $goHome);
     }
 }

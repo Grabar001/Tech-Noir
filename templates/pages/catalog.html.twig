@@ -14,65 +14,72 @@
 			<span>{{ categorie.nom }}</span>
 		</nav>
 
-		<div class="catalog-container">
-			<aside class="filters">
-
+		<div
+			class="catalog-layout">
+			{# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ LEFT FILTER PANEL ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #}
+			<aside class="filter-panel">
 				<form method="get">
-					{% if filtres is not empty %}
-						{% for filtre in filtres %}
-							<div class="filter-block">
-								<h4>{{ filtre.nom }}</h4>
-
-								{% for valeur in filtre.filtreValeurs %}
-									<div class="filter-option">
-										<input type="checkbox" name="filter_{{ filtre.id }}[]" value="{{ valeur.valeur }}" id="filtre_{{ filtre.id }}_{{ loop.index }}" {% if valeur.valeur in app.request.get('filter_' ~ filtre.id)|default([]) %} checked {% endif %}>
-										<label for="filtre_{{ filtre.id }}_{{ loop.index }}">{{ valeur.valeur }}</label>
-									</div>
-								{% endfor %}
-							</div>
-						{% endfor %}
-						<button type="submit">Filtrer</button>
-					{% else %}
-						<p>Aucun filtre disponible pour cette catégorie.</p>
-					{% endif %}
+					<h3>Filtres</h3>
+					{% for filtre in filtres %}
+						<div class="filter-group">
+							<h4>{{ filtre.nom }}</h4>
+							{% for valeur in filtre.filtreValeurs %}
+								<label class="filter-option">
+									<input type="checkbox" name="filter_{{ filtre.id }}[]" value="{{ valeur.valeur }}" id="valeur_{{ valeur.id }}" {% if valeur.valeur in app.request.get('filter_' ~ filtre.id)|default([]) %} checked {% endif %}>
+									{{ valeur.valeur }}
+								</label>
+							{% endfor %}
+						</div>
+					{% endfor %}
+					<button type="submit" class="btn-filter">Filtrer</button>
 				</form>
-
 			</aside>
 
-			<main class="catalog-products">
-				<h2>{{ categorie.nom }}</h2>
-				<div class="products-grid">
+			{# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ RIGHT PRODUCT PANEL ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #}
+			<main class="product-panel">
+				<div class="top-bar">
+					<h2>{{ categorie.nom }}</h2>
+					<div class="view-toggle">
+						<a href="#" class="toggle-btn grid">▦</a>
+						<a href="#" class="toggle-btn list">☰</a>
+					</div>
+				</div>
+
+				<div class="products products-grid" id="product-container">
+					
 					{% for produit in produits %}
 						<div class="product-card">
 							{% if produit.reduction %}
-								<div class="discount">-{{ produit.reduction }}%</div>
+								<div class="badge discount">-{{ produit.reduction }}%</div>
 							{% endif %}
 							{% if produit.isNew %}
-								<div class="badge">NEW</div>
+								<div class="badge new">NEW</div>
 							{% endif %}
 
 							<img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
-							<h4>{{ produit.nom }}</h4>
 
-							{% if produit.reduction %}
-								<p class="old-price">
-									{{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }}
-									€
-								</p>
-							{% endif %}
+							<div class="product-info">
+								<h4>{{ produit.nom }}</h4>
 
-							<p class="new-price">{{ produit.prix }}
-								€</p>
-
-							<p class="stock">
-								{% if produit.enStock %}✅ En stock{% else %}❌ Rupture
+								{% if produit.reduction %}
+									<p class="old-price">{{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }}
+										€</p>
 								{% endif %}
-							</p>
 
-							<button>Ajouter au panier</button>
+								<p class="new-price">{{ produit.prix }}
+									€</p>
+								<p class="stock">
+									{% if produit.enStock %}✅ En stock{% else %}❌ Rupture
+									{% endif %}
+								</p>
+							</div>
+
+							<form action="{{ path('cart_add', {'id': produit.id}) }}" method="post">
+								<button type="submit" class="btn-add">Ajouter au panier</button>
+							</form>
 						</div>
 					{% else %}
-						<p>Aucun produit dans cette catégorie.</p>
+						<p class="no-products">Aucun produit trouvé.</p>
 					{% endfor %}
 				</div>
 			</main>

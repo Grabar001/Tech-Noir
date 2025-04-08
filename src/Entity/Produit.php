@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Categorie;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -31,7 +32,12 @@ class Produit
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Image = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Assert\Range(
+        min: 0,
+        max: 99,
+        notInRangeMessage: 'La réduction doit être entre {{ min }}% et {{ max }}%.'
+    )]
     private ?int $reduction = null;
 
     #[ORM\Column]

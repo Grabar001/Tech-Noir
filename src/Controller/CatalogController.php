@@ -19,48 +19,42 @@ class CatalogController extends AbstractController
         CategorieRepository $categorieRepository,
         ProduitRepository $produitRepository
     ): Response {
+        // 🔸 Получаем категорию по slug
         $categorie = $categorieRepository->findOneBy(['slug' => $slug]);
 
         if (!$categorie) {
             throw $this->createNotFoundException('Catégorie non trouvée');
         }
 
+        // 🔸 Получаем фильтры, связанные с категорией
         $filtres = $categorie->getFiltres();
 
+        // 🔸 Базовый запрос: выбираем продукты этой категории
         $queryBuilder = $produitRepository->createQueryBuilder('p')
             ->where('p.categorie = :categorie')
             ->setParameter('categorie', $categorie);
 
-        // 🔸 Примеры стандартных фильтров
-        if ($request->query->get('marque')) {
-            $queryBuilder->andWhere('p.marque = :marque')
-                ->setParameter('marque', $request->query->get('marque'));
-        }
-
-        if ($request->query->get('memoire')) {
-            $queryBuilder->andWhere('p.memoire = :memoire')
-                ->setParameter('memoire', $request->query->get('memoire'));
-        }
-
-        // 🔸 Гибкая фильтрация по фильтрам, привязанным к категории
+        // 🔸 Динамическая фильтрация по фильтрам
         foreach ($filtres as $filtre) {
             $paramName = 'filter_' . $filtre->getId();
+            $valeurs = $request->query->all($paramName);
 
-            if ($request->query->has($paramName)) {
-                $valeurs = $request->query->all($paramName);
+            if (is_array($valeurs) && !empty($valeurs)) {
+                $champ = $filtre->getChamp(); // ⚠️ ← Убедись, что метод и поле champ существуют
+                if ($champ) {
+                    // Предотвращаем SQL-инъекцию и ошибки синтаксиса
+                    $champ = preg_replace('/[^a-zA-Z0-9_]/', '', $champ);
 
-                if (is_array($valeurs) && !empty($valeurs)) {
-                    $champ = $filtre->getChamp(); // ← безопасное техническое имя поля
-                    if ($champ) {
-                        $queryBuilder->andWhere('p.' . $champ . ' IN (:valeurs_' . $filtre->getId() . ')')
-                            ->setParameter('valeurs_' . $filtre->getId(), $valeurs);
-                    }
+                    $queryBuilder->andWhere("p.{$champ} IN (:valeurs_{$filtre->getId()})")
+                        ->setParameter("valeurs_{$filtre->getId()}", $valeurs);
                 }
             }
         }
 
+        // 🔸 Получаем готовый результат
         $produits = $queryBuilder->getQuery()->getResult();
 
+        // 🔸 Отдаем шаблону все нужные переменные
         return $this->render('pages/catalog.html.twig', [
             'categorie' => $categorie,
             'produits' => $produits,
@@ -69,12 +63,12 @@ class CatalogController extends AbstractController
     }
 
     #[Route('/catalog', name: 'catalog_all')]
-    public function all(ProduitRepository $produitRepository): Response
+    public function all(CategorieRepository $categorieRepository): Response
     {
-        $produits = $produitRepository->findAll();
+        $categories = $categorieRepository->findAll();
 
-        return $this->render('pages/catalog_all.html.twig', [
-            'produits' => $produits
+        return $this->render('pages/catalog_home.html.twig', [
+            'categories' => $categories
         ]);
     }
 }
