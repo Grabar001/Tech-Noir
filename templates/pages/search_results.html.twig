@@ -15,7 +15,7 @@
                     {% if produit.isNew %}
                         <div class="badge new">NEW</div>
                     {% endif %}
-                    <img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
+                    <img src="{{ asset('images/uploads/produits/' ~ produit.image) }}" alt="{{ produit.nom }}">
                     <h4>{{ produit.nom }}</h4>
                     {% if produit.reduction %}
                         <p class="old-price">{{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }} €</p>

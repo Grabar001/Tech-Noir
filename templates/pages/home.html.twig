@@ -22,7 +22,7 @@
             {% for categorie in categories %}
                 <div class="category">
                     <a href="{{ path('catalog', { slug: categorie.slug }) }}">
-                        <img src="{{ asset('uploads/categories/' ~ categorie.image) }}" alt="{{ categorie.nom }}">
+                        <img src="{{ asset('images/uploads/categories/' ~ categorie.image) }}" alt="{{ categorie.nom }}">
                         <p>{{ categorie.nom }}</p>
                     </a>
                 </div>
@@ -42,7 +42,7 @@
                         <div class="discount">-{{ produit.reduction }}%</div>
                     {% endif %}
 
-                    <img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
+                    <img src="{{ asset('images/uploads/produits/' ~ produit.image) }}" alt="{{ produit.nom }}">
                     <h4>{{ produit.nom }}</h4>
 
                     {% if produit.reduction %}

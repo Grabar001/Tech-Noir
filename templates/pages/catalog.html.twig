@@ -56,7 +56,7 @@
 								<div class="badge new">NEW</div>
 							{% endif %}
 
-							<img src="{{ asset(produit.image) }}" alt="{{ produit.nom }}">
+							<img src="{{ asset('images/uploads/produits/' ~ produit.image) }}" alt="{{ produit.nom }}">
 
 							<div class="product-info">
 								<h4>{{ produit.nom }}</h4>

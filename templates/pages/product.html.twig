@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="product-page">
-    <img src="{{ produit.image }}" alt="{{ produit.nom }}">
+    <img src="{{ asset('images/uploads/produits/' ~ produit.image) }}" alt="{{ produit.nom }}">
     <div class="details">
         <h1>{{ produit.nom }}</h1>
         <p>{{ produit.description }}</p>

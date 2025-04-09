@@ -68,8 +68,8 @@ class ProduitCrudController extends AbstractCrudController
             AssociationField::new('categorie')->setLabel('Catégorie'),
 
             ImageField::new('Image')
-                ->setBasePath('/uploads/produits')
-                ->setUploadDir('public/uploads/produits')
+                ->setBasePath('/images/uploads/produits')
+                ->setUploadDir('public/images/uploads/produits')
                 ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
                 ->setRequired(false),
 

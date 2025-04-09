@@ -12,7 +12,7 @@
 				<div class="category-card">
 					<a href="{{ path('catalog', {'slug': categorie.slug}) }}">
 						{% if categorie.image %}
-							<img src="{{ asset('uploads/categories/' ~ categorie.image) }}" alt="{{ categorie.nom }}">
+							<img src="{{ asset('images/uploads/categories/' ~ categorie.image) }}" alt="{{ categorie.nom }}">
 						{% endif %}
 						<h3>{{ categorie.nom }}</h3>
 					</a>

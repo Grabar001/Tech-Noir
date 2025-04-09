@@ -22,7 +22,7 @@ Encore
         config.corejs = '3.38';
     })
 
-    // 👉 ВАЖНО: Включаем Stimulus Bridge
+    .enableSassLoader()
     .enableStimulusBridge('./assets/controllers.json')
 ;
 
