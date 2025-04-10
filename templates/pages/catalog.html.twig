@@ -5,6 +5,16 @@
 	| Catalogue
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('catalog') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('catalog') }}
+{% endblock %}
+
 {% block body %}
 	<div class="catalog-page">
 

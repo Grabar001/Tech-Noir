@@ -3,13 +3,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: white;
+  background-color: #F6F6F6;
+  color: #ffffff;
 }
 .nav-bar .logo {
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1;
-  color: #6a0dad;
+  color: #750DC5;
 }
 .nav-bar .logo .line1, .nav-bar .logo .line2 {
   display: block;
@@ -23,59 +24,47 @@
 .nav-bar .search-bar input {
   width: 100%;
   padding: 0.5rem 2rem 0.5rem 2.5rem;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
-  background-color: #e5e5e5;
+  background-color: #C1C1C1;
+  color: #fff;
   font-size: 1rem;
+}
+.nav-bar .search-bar input::-moz-placeholder {
+  color: #aaa;
+}
+.nav-bar .search-bar input::placeholder {
+  color: #aaa;
 }
 .nav-bar .search-bar i {
   position: absolute;
   left: 0.8rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #666;
+  color: #999;
 }
 .nav-bar .nav-icons {
   display: flex;
   gap: 1.5rem;
+  color: #0C0C0C;
 }
 .nav-bar .nav-icons a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #555;
+  color: #0C0C0C;
   font-size: 0.9rem;
   text-decoration: none;
+  transition: all 0.2s ease;
 }
 .nav-bar .nav-icons a i {
   font-size: 1.3rem;
   margin-bottom: 0.2rem;
 }
 .nav-bar .nav-icons a span {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
-
-.form-container {
-  max-width: 500px;
-  margin: 3rem auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: #2c006b;
-  text-align: center;
-}
-.form-container .btn-purple {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
-  background-color: #2c006b;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: bold;
-}
-.form-container .btn-purple:hover {
-  background-color: #4b0099;
+.nav-bar .nav-icons a:hover {
+  color: #750DC5;
+  transform: scale(1.1);
 }/*# sourceMappingURL=nav.css.map */

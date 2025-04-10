@@ -8,22 +8,35 @@
   border-radius: 10px;
 }
 
-.categories {
-  margin-top: 2rem;
-}
-.categories .category-list {
+.category-list {
   display: flex;
+  justify-content: center;
   gap: 1rem;
+  flex-wrap: wrap;
+  margin: 2rem auto;
 }
-.categories .category-list .category {
-  background: #F6F6F6;
+.category-list .category-card {
+  background-color: #BCC5FF;
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: 12px;
   text-align: center;
+  width: 120px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
 }
-.categories .category-list .category img {
-  height: 60px;
+.category-list .category-card:hover {
+  transform: translateY(-4px);
+}
+.category-list .category-card img {
+  max-width: 100%;
+  height: auto;
   margin-bottom: 0.5rem;
+}
+.category-list .category-card h3 {
+  font-size: 0.9rem;
+  color: #0C0C0C;
+  font-weight: bold;
+  margin: 0;
 }
 
 .promos {

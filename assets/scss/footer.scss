@@ -1,0 +1,46 @@
+.site-footer {
+  background-color: #0e0e2c;
+  color: #fff;
+  padding: 2rem 1.5rem;
+  margin-top: 4rem;
+
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #6a0dad;
+    line-height: 1;
+
+    span {
+      color: #fff;
+    }
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
+  .footer-contact {
+    font-size: 0.85rem;
+    color: #bbb;
+  }
+}

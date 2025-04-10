@@ -1,9 +1,4 @@
-@use "variables";
-@use "buttons";
-@use "forms";
-@use "nav";
-@use "cart";
-@use "home";
-@use "catalog";
-@use "product";
-@use "confirmation";
+@import './variables';
+@import './nav';
+@import './footer';
+@import './forms';

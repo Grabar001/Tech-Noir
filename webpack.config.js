@@ -7,7 +7,11 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
+
     .addEntry('app', './assets/app.js')
+    .addEntry('home', './assets/home.js')
+    .addEntry('catalog', './assets/catalog.js')
+    .addEntry('product', './assets/product.js')
 
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
@@ -24,6 +28,11 @@ Encore
 
     .enableSassLoader()
     .enableStimulusBridge('./assets/controllers.json')
+
+    .configureImageRule({
+        type: 'asset',
+        maxSize: 8 * 1024
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();

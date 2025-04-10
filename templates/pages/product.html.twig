@@ -2,6 +2,16 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('product') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('product') }}
+{% endblock %}
+
 {% block body %}
 <div class="product-page">
     <img src="{{ asset('images/uploads/produits/' ~ produit.image) }}" alt="{{ produit.nom }}">
