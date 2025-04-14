@@ -21,13 +21,13 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Nom = null;
+    private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $Description = null;
 
     #[ORM\Column]
-    private ?float $Prix = null;
+    private ?float $prix = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Image = null;
@@ -75,12 +75,12 @@ class Produit
 
     public function getNom(): ?string
     {
-        return $this->Nom;
+        return $this->nom;
     }
 
-    public function setNom(string $Nom): static
+    public function setNom(string $nom): static
     {
-        $this->Nom = $Nom;
+        $this->Nom = $nom;
 
         return $this;
     }
@@ -99,12 +99,12 @@ class Produit
 
     public function getPrix(): ?float
     {
-        return $this->Prix;
+        return $this->prix;
     }
 
-    public function setPrix(float $Prix): static
+    public function setPrix(float $prix): static
     {
-        $this->Prix = $Prix;
+        $this->prix = $prix;
 
         return $this;
     }
@@ -185,9 +185,18 @@ class Produit
     #[ORM\PreUpdate]
     public function generateSlug(): void
     {
-        if (!$this->slug && $this->Nom) {
-            $slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $this->Nom), '-'));
+        if (!$this->slug && $this->nom) {
+            $slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $this->nom), '-'));
             $this->slug = $slug;
         }
     }
+
+    public function getPrixAvecReduction(): float
+{
+    if ($this->reduction) {
+        return round($this->prix - ($this->prix * $this->reduction / 100), 2);
+    }
+
+    return $this->prix;
+}
 }

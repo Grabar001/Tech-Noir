@@ -13,7 +13,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'homepage')]
     public function index(ProduitRepository $produitRepository, CategorieRepository $categorieRepository): Response
     {
-        $produits = $produitRepository->findBy(['reduction' => ['NOT' => null]]);
+        $produits = $produitRepository->findProduitsAvecReduction();
         $categories = $categorieRepository->findAll();
 
         return $this->render('pages/home.html.twig', [
@@ -21,5 +21,11 @@ class HomeController extends AbstractController
             'produits' => $produits,
             'categories' => $categories
         ]);
+    }
+
+    #[Route('/promotions', name: 'promotion')]
+    public function promotions(): Response
+    {
+        return $this->render('promotion/index.html.twig');
     }
 }

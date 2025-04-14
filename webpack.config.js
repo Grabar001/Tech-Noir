@@ -12,6 +12,7 @@ Encore
     .addEntry('home', './assets/home.js')
     .addEntry('catalog', './assets/catalog.js')
     .addEntry('product', './assets/product.js')
+    .addEntry('catalog_home', './assets/catalog_home.js')
 
     .splitEntryChunks()
     .enableSingleRuntimeChunk()

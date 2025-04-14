@@ -6,20 +6,20 @@
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('catalog') }}
+	{{ parent() }}
+	{{ encore_entry_link_tags('catalog') }}
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('catalog') }}
+	{{ parent() }}
+	{{ encore_entry_script_tags('catalog') }}
 {% endblock %}
 
 {% block body %}
 	<div class="catalog-page">
 
 		<nav class="breadcrumb">
-			<a href="{{ path('homepage') }}">Accueil</a>
+			<a href="{{ path('catalog_all') }}">Accueil</a>
 			/
 			<span>{{ categorie.nom }}</span>
 		</nav>
@@ -49,6 +49,33 @@
 			<main class="product-panel">
 				<div class="top-bar">
 					<h2>{{ categorie.nom }}</h2>
+
+					<div class="sort-select">
+						<form method="get" class="sort-form">
+							<label for="sort">Trier par :</label>
+							<select name="sort" id="sort" onchange="this.form.submit()">
+								<option value="">Par défaut</option>
+								<option value="reduction_desc" {% if app.request.get('sort') == 'reduction_desc' %} selected {% endif %}>Réduction ↓</option>
+								<option value="reduction_asc" {% if app.request.get('sort') == 'reduction_asc' %} selected {% endif %}>Réduction ↑</option>
+								<option value="prix_asc" {% if app.request.get('sort') == 'prix_asc' %} selected {% endif %}>Prix ↑</option>
+								<option value="prix_desc" {% if app.request.get('sort') == 'prix_desc' %} selected {% endif %}>Prix ↓</option>
+								<option value="nom_asc" {% if app.request.get('sort') == 'nom_asc' %} selected {% endif %}>Nom A → Z</option>
+								<option value="nom_desc" {% if app.request.get('sort') == 'nom_desc' %} selected {% endif %}>Nom Z → A</option>
+								<option value="stock" {% if app.request.get('sort') == 'stock' %} selected {% endif %}>Disponibilité : En stock</option>
+								<option value="rupture" {% if app.request.get('sort') == 'rupture' %} selected {% endif %}>Disponibilité : Rupture</option>
+							</select>
+
+							{# 🛑 Сохраняем остальные параметры фильтров #}
+							{% for key, value in app.request.query.all %}
+								{% if key starts with 'filter_' %}
+									{% for val in value %}
+										<input type="hidden" name="{{ key }}[]" value="{{ val }}">
+									{% endfor %}
+								{% endif %}
+							{% endfor %}
+						</form>
+					</div>
+
 					<div class="view-toggle">
 						<a href="#" class="toggle-btn grid">▦</a>
 						<a href="#" class="toggle-btn list">☰</a>
@@ -56,9 +83,8 @@
 				</div>
 
 				<div class="products products-grid" id="product-container">
-					
 					{% for produit in produits %}
-						<div class="product-card">
+						<div class="product-card card">
 							{% if produit.reduction %}
 								<div class="badge discount">-{{ produit.reduction }}%</div>
 							{% endif %}
@@ -71,15 +97,28 @@
 							<div class="product-info">
 								<h4>{{ produit.nom }}</h4>
 
+								<p class="description">
+									{{ produit.description }}
+								</p>
+
+
 								{% if produit.reduction %}
-									<p class="old-price">{{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }}
-										€</p>
+									<p class="old-price">
+										{{ produit.prix|number_format(2, ',', ' ') }}
+										€
+									</p>
 								{% endif %}
 
-								<p class="new-price">{{ produit.prix }}
-									€</p>
+								<p class="new-price">
+									{{ produit.prixAvecReduction|number_format(2, ',', ' ') }}
+									€
+								</p>
+
 								<p class="stock">
-									{% if produit.enStock %}✅ En stock{% else %}❌ Rupture
+									{% if produit.enStock %}
+										✅ En stock
+									{% else %}
+										❌ Rupture
 									{% endif %}
 								</p>
 							</div>

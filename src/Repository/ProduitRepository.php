@@ -41,11 +41,20 @@ class ProduitRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function findAllProduits(): array
-{
-    return $this->createQueryBuilder('p')
-        ->orderBy('p.nom', 'ASC')
-        ->getQuery()
-        ->getResult();
-}
+    // public function findAllProduits(): array
+    // {
+    //     return $this->createQueryBuilder('p')
+    //         ->orderBy('p.nom', 'ASC')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+    public function findProduitsAvecReduction(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.reduction IS NOT NULL')
+            ->andWhere('p.reduction > 0')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -45,7 +45,9 @@ class ProduitCrudController extends AbstractCrudController
             TextField::new('Nom'),
             TextField::new('slug')->onlyOnDetail(),
             TextareaField::new('Description'),
-            MoneyField::new('Prix')->setCurrency('EUR'),
+            MoneyField::new('prix')
+                ->setCurrency('EUR')
+                ->setStoredAsCents(false),
 
             BooleanField::new('isNew')
                 ->setLabel('🆕 Nouveau')
@@ -83,7 +85,7 @@ class ProduitCrudController extends AbstractCrudController
             ->add(BooleanFilter::new('isNew'))
             ->add(BooleanFilter::new('enStock'))
             ->add(NumericFilter::new('reduction'))
-            ->add(NumericFilter::new('Prix'));
+            ->add(NumericFilter::new('prix'));
     }
 
 

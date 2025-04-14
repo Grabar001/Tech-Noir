@@ -1,0 +1,36 @@
+.slideshow {
+	padding: 2rem 0;
+	background-color: #0C0C0C;
+	overflow: hidden;
+
+	.slides {
+		display: flex;
+		gap: 2rem;
+		animation: slideLoop 20s linear infinite;
+		width: max-content;
+
+		img {
+			width: 400px;
+			height: auto;
+			object-fit: cover;
+			border-radius: 2rem;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+			border: 2px solid #260DC1;
+			transition: transform 0.3s ease;
+
+			&:hover {
+				transform: scale(1.05);
+				border-color: #750DC5;
+			}
+		}
+	}
+
+	@keyframes slideLoop {
+		0% {
+			transform: translateX(0%);
+		}
+		100% {
+			transform: translateX(-50%);
+		}
+	}
+}

@@ -1,0 +1,128 @@
+.promos {
+	padding: 3rem 2rem;
+	background-color: #F6F6F6;
+
+	h3 {
+		font-size: 24px;
+		font-weight: bold;
+		margin-bottom: 1rem;
+
+		a {
+			display: inline-block;
+			color: #091D9E;
+			text-decoration: none;
+			font-family: 'Roboto', sans-serif;
+			transition: color 0.3s ease, transform 0.2s ease;
+
+			&:hover {
+				color: #750DC5;
+				transform: scale(1.05);
+			}
+		}
+	}
+
+	.promo-container {
+		display: flex;
+		align-items: center;
+		position: relative;
+	}
+
+	.promo-scroll-wrapper {
+		display: flex;
+		overflow-x: auto;
+		scroll-behavior: smooth;
+		gap: 2rem;
+		padding: 1rem 0;
+
+		.product-card {
+			min-width: 250px;
+			background-color: #ffffff;
+			border-radius: 1rem;
+			padding: 1rem;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+			transition: transform 0.3s ease, background-color 0.3s ease;
+			position: relative;
+
+			&:hover {
+				transform: scale(1.05);
+				background-color: #EAE6FF;
+
+				button {
+					transform: scale(1.05);
+					background-color: #750DC5;
+				}
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				object-fit: cover;
+				border-radius: 0.8rem;
+				margin-bottom: 1rem;
+			}
+
+			h4 {
+				font-size: 1.2rem;
+				font-weight: 600;
+				margin-bottom: 0.5rem;
+			}
+
+			.old-price {
+				text-decoration: line-through;
+				color: #C1C1C1;
+				font-size: 0.9rem;
+			}
+
+			.new-price {
+				font-size: 1.2rem;
+				font-weight: bold;
+				color: #091D9E;
+				margin-bottom: 0.5rem;
+			}
+
+			.stock {
+				font-size: 0.95rem;
+				margin-bottom: 1rem;
+			}
+
+			button {
+				background-color: #260DC1;
+				color: #fff;
+				padding: 0.6rem 1rem;
+				border: none;
+				border-radius: 0.5rem;
+				cursor: pointer;
+				transition: transform 0.2s ease, background-color 0.2s ease;
+
+				&:hover {
+					background-color: #750DC5;
+				}
+			}
+
+			.discount {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				background-color: #EBBA1A;
+				color: #0C0C0C;
+				font-weight: bold;
+				padding: 0.3rem 0.6rem;
+				border-radius: 1rem;
+				font-size: 0.9rem;
+			}
+		}
+	}
+
+	.arrow {
+		background: none;
+		border: none;
+		font-size: 2rem;
+		cursor: pointer;
+		color: #260DC1;
+		padding: 0 1rem;
+
+		&:hover {
+			color: #750DC5;
+		}
+	}
+}

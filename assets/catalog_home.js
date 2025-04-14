@@ -1,0 +1,1 @@
+import './scss/catalog/catalog_home.scss';

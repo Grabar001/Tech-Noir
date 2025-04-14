@@ -1,6 +1,39 @@
 .site-footer {
-  background-color: #111;
+  background-color: #0e0e2c;
   color: #fff;
-  padding: 2rem;
-  font-size: 0.9rem;
+  padding: 2rem 1.5rem;
+  margin-top: 4rem;
+}
+.site-footer .footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: flex-start;
+}
+.site-footer .footer-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #6a0dad;
+  line-height: 1;
+}
+.site-footer .footer-logo span {
+  color: #fff;
+}
+.site-footer .footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.site-footer .footer-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.site-footer .footer-links a:hover {
+  color: #fff;
+}
+.site-footer .footer-contact {
+  font-size: 0.85rem;
+  color: #bbb;
 }/*# sourceMappingURL=footer.css.map */

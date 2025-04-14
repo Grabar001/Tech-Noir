@@ -1,82 +1,92 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil - TECH NOIR{% endblock %}
+{% block title %}Accueil - TECH NOIR
+{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('home') }}
+	{{ parent() }}
+	{{ encore_entry_link_tags('home') }}
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('home') }}
+	{{ parent() }}
+	{{ encore_entry_script_tags('home') }}
 {% endblock %}
 
 {% block body %}
-<div class="homepage-desktop">
+	<div class="homepage-desktop">
 
-    {# Слайдер баннеров #}
-    <section class="slideshow">
-        <div class="slides">
-            <img src="{{ asset('images/slideshow/Slide_1.webp') }}" alt="Slide 1">
-            <img src="{{ asset('images/slideshow/Slide_2.webp') }}" alt="Slide 2">
-            <img src="{{ asset('images/slideshow/Slide_3.webp') }}" alt="Slide 3">
-            <img src="{{ asset('images/slideshow/Slide_4.webp') }}" alt="Slide 4">
-        </div>
-    </section>
 
-    {# Категории динамически из базы #}
-    <section class="categories">
-        <h3>Catalogue</h3>
-        <div class="category-list">
-            {% for categorie in categories %}
-                <div class="category">
-                    <a href="{{ path('catalog', { slug: categorie.slug }) }}">
-                        <img src="{{ asset('images/uploads/categories/' ~ categorie.image) }}" alt="{{ categorie.nom }}">
-                        <p>{{ categorie.nom }}</p>
-                    </a>
-                </div>
-            {% else %}
-                <p>Aucune catégorie trouvée.</p>
-            {% endfor %}
-        </div>
-    </section>
+		<section class="slideshow">
+			<div class="slides">
+				{% for i in 1..2 %}
+					<img src="{{ asset('images/slideshow/Slide_1.webp') }}" alt="Slide 1">
+					<img src="{{ asset('images/slideshow/Slide_2.webp') }}" alt="Slide 2">
+					<img src="{{ asset('images/slideshow/Slide_3.webp') }}" alt="Slide 3">
+					<img src="{{ asset('images/slideshow/Slide_4.webp') }}" alt="Slide 4">
+				{% endfor %}
+			</div>
+		</section>
 
-    {# Промо-блок с товарами #}
-    <section class="promos">
-        <h3>Promotion</h3>
-        <div class="products-grid">
-            {% for produit in produits %}
-                <div class="product-card">
-                    {% if produit.reduction %}
-                        <div class="discount">-{{ produit.reduction }}%</div>
-                    {% endif %}
+		<section class="categories fade-in">
+			<h3>
+				<a href="{{ path('catalog_all') }}" class="catalog-title-link">
+					Catalogue
+				</a>
+			</h3>
+			<div class="category-container">
+				<div class="scroll-wrapper">
+					{% for categorie in categories %}
+						<div class="category">
+							<a href="{{ path('catalog', { slug: categorie.slug }) }}">
+								<img src="{{ asset('images/uploads/categories/' ~ categorie.image) }}" alt="{{ categorie.nom }}">
+								<p>{{ categorie.nom }}</p>
+							</a>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
 
-                    <img src="{{ asset('images/uploads/produits/' ~ produit.image) }}" alt="{{ produit.nom }}">
-                    <h4>{{ produit.nom }}</h4>
+		<section class="promos fade-in">
+			<h3 class="promo-title">
+				<a href="{{ path('promotion') }}">Promotion</a>
+			</h3>
 
-                    {% if produit.reduction %}
-                        <p class="old-price">
-                            {{ (produit.prix * 100) / (100 - produit.reduction) | round(2) }} €
-                        </p>
-                    {% endif %}
-                    <p class="new-price">{{ produit.prix }} €</p>
+			<div class="promo-container">
+				<button class="arrow left" onclick="scrollPromos('left')">
+					<i class="fas fa-chevron-left"></i>
+				</button>
 
-                    <p class="stock">
-                        {% if produit.enStock %}
-                            ✅ En stock
-                        {% else %}
-                            ❌ Rupture
-                        {% endif %}
-                    </p>
+				<div class="promo-scroll-wrapper">
+					{% for produit in produits %}
+						<div
+							class="product-card">
+							{# ... всё как раньше ... #}
+							<img src="{{ asset('images/uploads/produits/' ~ produit.image) }}" alt="{{ produit.nom }}">
+							<h4>{{ produit.nom }}</h4>
 
-                    <button>Ajouter au panier</button>
-                </div>
-            {% else %}
-                <p>Aucun produit en promotion actuellement.</p>
-            {% endfor %}
-        </div>
-    </section>
+							{% if produit.reduction %}
+								<div class="discount">-{{ produit.reduction }}%</div>
+								<p class="old-price">{{ produit.prix|number_format(2, ',', ' ') }}
+									€</p>
+								<p class="new-price">{{ produit.prixAvecReduction|number_format(2, ',', ' ') }}
+									€</p>
+							{% else %}
+								<p class="new-price">{{ produit.prix|number_format(2, ',', ' ') }}
+									€</p>
+							{% endif %}
 
-</div>
+							<button>Ajouter au panier</button>
+						</div>
+					{% endfor %}
+				</div>
+
+				<button class="arrow right" onclick="scrollPromos('right')">
+					<i class="fas fa-chevron-right"></i>
+				</button>
+			</div>
+		</section>
+
+	</div>
 {% endblock %}
