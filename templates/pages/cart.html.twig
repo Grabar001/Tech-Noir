@@ -1,15 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Votre Panier - TECH NOIR{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('cart') }}
+{% endblock %}
 
 {% block body %}
-<div class="cart-page">
-    <h1>Votre Panier</h1>
+<div class="cart-page container">
+
+    <h1 class="cart-title">🛒 Votre Panier</h1>
 
     {% if cart is empty %}
-        <p>Votre panier est vide.</p>
+        <p class="empty-cart">Votre panier est vide.</p>
+        <a href="{{ path('catalog_all') }}" class="btn-return">⬅ Retour au catalogue</a>
     {% else %}
-        <table>
+        <table class="cart-table">
             <thead>
                 <tr>
                     <th>Image</th>
@@ -24,25 +31,29 @@
                 {% for item in cart %}
                     <tr>
                         <td>
-                            <img src="{{ asset('images/uploads/produits/' ~ produit.image) }}" alt="{{ produit.nom }}">
+                            <img src="{{ asset('images/uploads/produits/' ~ item.produit.image) }}" alt="{{ item.produit.nom }}" class="cart-img">
                         </td>
                         <td>{{ item.produit.nom }}</td>
                         <td>{{ item.quantite }}</td>
-                        <td>{{ item.produit.prix }} €</td>
-                        <td>{{ item.produit.prix * item.quantite }} €</td>
+                        <td>{{ item.produit.prix|number_format(2, ',', ' ') }} €</td>
+                        <td>{{ (item.produit.prix * item.quantite)|number_format(2, ',', ' ') }} €</td>
                         <td>
-                            <a href="{{ path('cart_remove', {'id': item.produit.id}) }}">Supprimer</a>
+                            <a href="{{ path('cart_remove', {'id': item.produit.id}) }}" class="btn-remove">❌ Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <h3>Total : {{ total }} €</h3>
+        <div class="cart-summary">
+            <h3>Total : <span class="total-price">{{ total|number_format(2, ',', ' ') }} €</span></h3>
 
-        <a href="{{ path('checkout') }}">✅ Passer la commande</a>
+            <div class="cart-actions">
+                <a href="{{ path('checkout') }}" class="btn-checkout">✅ Passer la commande</a>
+                <a href="{{ path('cart_clear') }}" class="btn-clear">🧹 Vider le panier</a>
+                <a href="{{ path('catalog_all') }}" class="btn-return">⬅ Retour au catalogue</a>
+            </div>
+        </div>
     {% endif %}
-
-    <a href="{{ path('catalog_all') }}">⬅ Retour au catalogue</a>
 </div>
 {% endblock %}

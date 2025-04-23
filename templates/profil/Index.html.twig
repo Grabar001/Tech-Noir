@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>👤 Bonjour, {{ user.email }}</h1>
+
+    <ul>
+        <li><a href="{{ path('profil_commandes') }}">🧾 Voir mes commandes</a></li>
+    </ul>
+</div>
+{% endblock %}

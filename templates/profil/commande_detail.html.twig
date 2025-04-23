@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de la commande #{{ commande.id }}{% endblock %}
+
+{% block body %}
+<div class="container commande-detail-page">
+    <h1>🧾 Détail de la commande #{{ commande.id }}</h1>
+    <p><strong>Date :</strong> {{ commande.createdAt|date('d/m/Y H:i') }}</p>
+    <p><strong>Total :</strong> {{ commande.total|number_format(2, ',', ' ') }} €</p>
+
+    <h2>Produits commandés :</h2>
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Sous-total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in commande.commandeProduits %}
+                <tr>
+                    <td>{{ item.produit.nom }}</td>
+                    <td>{{ item.quantite }}</td>
+                    <td>{{ item.produit.prix|number_format(2, ',', ' ') }} €</td>
+                    <td>{{ (item.quantite * item.produit.prix)|number_format(2, ',', ' ') }} €</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('profil_commandes') }}">⬅ Retour à mes commandes</a>
+</div>
+{% endblock %}

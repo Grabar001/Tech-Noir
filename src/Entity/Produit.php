@@ -3,13 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Doctrine\ORM\Mapping\PrePersist;
-use Doctrine\ORM\Mapping\PreUpdate;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Categorie;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -24,20 +22,16 @@ class Produit
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $Description = null;
+    private ?string $description = null;
 
     #[ORM\Column]
     private ?float $prix = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Image = null;
+    private ?string $image = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Assert\Range(
-        min: 0,
-        max: 99,
-        notInRangeMessage: 'La réduction doit être entre {{ min }}% et {{ max }}%.'
-    )]
+    #[Assert\Range(min: 0, max: 99)]
     private ?int $reduction = null;
 
     #[ORM\Column]
@@ -61,142 +55,103 @@ class Produit
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $resolution = null;
 
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $slug = null;
+
     #[ORM\ManyToOne(inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Categorie $categorie = null;
 
-    #[ORM\Column(length: 255, unique: true)]
-    private ?string $slug = null;
+    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: ProduitFiltreValeur::class, cascade: ['persist'], orphanRemoval: true)]
+    private Collection $produitFiltreValeurs;
 
-    public function getId(): ?int
+    public function __construct()
     {
-        return $this->id;
+        $this->produitFiltreValeurs = new ArrayCollection();
     }
 
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
+    public function getId(): ?int { return $this->id; }
 
-    public function setNom(string $nom): static
-    {
-        $this->Nom = $nom;
+    public function getNom(): ?string { return $this->nom; }
+    public function setNom(string $nom): static { $this->nom = $nom; return $this; }
 
-        return $this;
-    }
+    public function getDescription(): ?string { return $this->description; }
+    public function setDescription(string $description): static { $this->description = $description; return $this; }
 
-    public function getDescription(): ?string
-    {
-        return $this->Description;
-    }
+    public function getPrix(): ?float { return $this->prix; }
+    public function setPrix(float $prix): static { $this->prix = $prix; return $this; }
 
-    public function setDescription(string $Description): static
-    {
-        $this->Description = $Description;
+    public function getImage(): ?string { return $this->image; }
+    public function setImage(?string $image): static { $this->image = $image; return $this; }
 
-        return $this;
-    }
+    public function getReduction(): ?int { return $this->reduction; }
+    public function setReduction(?int $reduction): static { $this->reduction = $reduction; return $this; }
 
-    public function getPrix(): ?float
-    {
-        return $this->prix;
-    }
+    public function isEnStock(): ?bool { return $this->enStock; }
+    public function setEnStock(bool $enStock): static { $this->enStock = $enStock; return $this; }
 
-    public function setPrix(float $prix): static
-    {
-        $this->prix = $prix;
+    public function isNew(): ?bool { return $this->isNew; }
+    public function setIsNew(bool $isNew): static { $this->isNew = $isNew; return $this; }
 
-        return $this;
-    }
+    public function getMarque(): ?string { return $this->marque; }
+    public function setMarque(?string $marque): static { $this->marque = $marque; return $this; }
 
-    public function getImage(): ?string
-    {
-        return $this->Image;
-    }
+    public function getMemoire(): ?string { return $this->memoire; }
+    public function setMemoire(?string $memoire): static { $this->memoire = $memoire; return $this; }
 
-    public function setImage(string $Image): static
-    {
-        $this->Image = $Image;
+    public function getCpu(): ?string { return $this->cpu; }
+    public function setCpu(?string $cpu): static { $this->cpu = $cpu; return $this; }
 
-        return $this;
-    }
+    public function getEcran(): ?string { return $this->ecran; }
+    public function setEcran(?string $ecran): static { $this->ecran = $ecran; return $this; }
 
-    public function getReduction(): ?int
-    {
-        return $this->reduction;
-    }
+    public function getResolution(): ?string { return $this->resolution; }
+    public function setResolution(?string $resolution): static { $this->resolution = $resolution; return $this; }
 
-    public function setReduction(?int $reduction): static
-    {
-        $this->reduction = $reduction;
+    public function getCategorie(): ?Categorie { return $this->categorie; }
+    public function setCategorie(?Categorie $categorie): static { $this->categorie = $categorie; return $this; }
 
-        return $this;
-    }
-
-    public function isEnStock(): ?bool
-    {
-        return $this->enStock;
-    }
-
-    public function setEnStock(bool $enStock): static
-    {
-        $this->enStock = $enStock;
-
-        return $this;
-    }
-
-    public function isNew(): ?bool
-    {
-        return $this->isNew;
-    }
-
-    public function setIsNew(bool $isNew): static
-    {
-        $this->isNew = $isNew;
-
-        return $this;
-    }
-
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): static
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): static
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
+    public function getSlug(): ?string { return $this->slug; }
+    public function setSlug(string $slug): static { $this->slug = $slug; return $this; }
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function generateSlug(): void
     {
         if (!$this->slug && $this->nom) {
-            $slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $this->nom), '-'));
-            $this->slug = $slug;
+            $this->slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $this->nom), '-'));
         }
     }
 
     public function getPrixAvecReduction(): float
-{
-    if ($this->reduction) {
-        return round($this->prix - ($this->prix * $this->reduction / 100), 2);
+    {
+        if ($this->reduction) {
+            return round($this->prix - ($this->prix * $this->reduction / 100), 2);
+        }
+        return $this->prix;
     }
 
-    return $this->prix;
-}
+    public function getProduitFiltreValeurs(): Collection
+    {
+        return $this->produitFiltreValeurs;
+    }
+
+    public function addProduitFiltreValeur(ProduitFiltreValeur $valeur): static
+    {
+        if (!$this->produitFiltreValeurs->contains($valeur)) {
+            $this->produitFiltreValeurs->add($valeur);
+            $valeur->setProduit($this);
+        }
+        return $this;
+    }
+
+    public function removeProduitFiltreValeur(ProduitFiltreValeur $valeur): static
+    {
+        if ($this->produitFiltreValeurs->removeElement($valeur)) {
+            if ($valeur->getProduit() === $this) {
+                $valeur->setProduit(null);
+            }
+        }
+        return $this;
+    }
 }

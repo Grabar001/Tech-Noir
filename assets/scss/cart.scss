@@ -1,0 +1,109 @@
+.cart-page {
+    padding: 2rem;
+  
+    .cart-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+    }
+  
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+  
+      th, td {
+        border: 1px solid #ccc;
+        padding: 1rem;
+        text-align: center;
+      }
+  
+      img {
+        max-width: 80px;
+        border-radius: 8px;
+      }
+    }
+  
+    .cart-summary {
+      text-align: right;
+  
+      .total-price {
+        font-size: 1.5rem;
+        color: #091D9E;
+        font-weight: bold;
+      }
+  
+      .cart-actions {
+        margin-top: 1rem;
+  
+        a {
+          margin-right: 1rem;
+        }
+      }
+    }
+  
+    .btn-checkout {
+      background: #750DC5;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+    }
+  
+    .btn-clear {
+      background: #C1C1C1;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+    }
+  
+    .btn-remove {
+      color: red;
+    }
+  
+    .btn-return {
+      color: #091D9E;
+      text-decoration: underline;
+    }
+  }
+
+  .confirmation-page {
+    padding: 2rem;
+  
+    .confirmation-title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #091D9E;
+      margin-bottom: 1rem;
+    }
+  
+    .confirmation-id {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    .confirmation-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+  
+      th, td {
+        border: 1px solid #ccc;
+        padding: 1rem;
+        text-align: center;
+      }
+    }
+  
+    .confirmation-total {
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-align: right;
+      color: #260DC1;
+    }
+  
+    .btn-return {
+      background-color: #750DC5;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+  }

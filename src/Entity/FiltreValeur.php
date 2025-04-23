@@ -3,7 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\FiltreValeurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Filtre;
+use App\Entity\ProduitFiltreValeur;
 
 #[ORM\Entity(repositoryClass: FiltreValeurRepository::class)]
 class FiltreValeur
@@ -20,6 +24,22 @@ class FiltreValeur
     #[ORM\JoinColumn(nullable: false)]
     private ?Filtre $filtre = null;
 
+    /**
+     * @var Collection<int, ProduitFiltreValeur>
+     */
+    #[ORM\OneToMany(
+        mappedBy: 'filtreValeur',
+        targetEntity: ProduitFiltreValeur::class,
+        cascade: ['persist'],
+        orphanRemoval: true
+    )]
+    private Collection $produitFiltreValeurs;
+
+    public function __construct()
+    {
+        $this->produitFiltreValeurs = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -33,7 +53,6 @@ class FiltreValeur
     public function setValeur(string $valeur): static
     {
         $this->valeur = $valeur;
-
         return $this;
     }
 
@@ -45,6 +64,34 @@ class FiltreValeur
     public function setFiltre(?Filtre $filtre): static
     {
         $this->filtre = $filtre;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProduitFiltreValeur>
+     */
+    public function getProduitFiltreValeurs(): Collection
+    {
+        return $this->produitFiltreValeurs;
+    }
+
+    public function addProduitFiltreValeur(ProduitFiltreValeur $produitFiltreValeur): static
+    {
+        if (!$this->produitFiltreValeurs->contains($produitFiltreValeur)) {
+            $this->produitFiltreValeurs->add($produitFiltreValeur);
+            $produitFiltreValeur->setFiltreValeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduitFiltreValeur(ProduitFiltreValeur $produitFiltreValeur): static
+    {
+        if ($this->produitFiltreValeurs->removeElement($produitFiltreValeur)) {
+            if ($produitFiltreValeur->getFiltreValeur() === $this) {
+                $produitFiltreValeur->setFiltreValeur(null);
+            }
+        }
 
         return $this;
     }

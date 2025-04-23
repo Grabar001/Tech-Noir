@@ -7,9 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Produit;
-use Doctrine\ORM\Mapping\PrePersist;
-use Doctrine\ORM\Mapping\PreUpdate;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -57,7 +54,6 @@ class Categorie
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -69,7 +65,17 @@ class Categorie
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+        return $this;
+    }
 
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
         return $this;
     }
 
@@ -90,38 +96,9 @@ class Categorie
 
     public function removeProduit(Produit $produit): static
     {
-        if ($this->produits->removeElement($produit)) {
-            if ($produit->getCategorie() === $this) {
-                $produit->setCategorie(null);
-            }
+        if ($this->produits->removeElement($produit) && $produit->getCategorie() === $this) {
+            $produit->setCategorie(null);
         }
-
-        return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->nom ?? '—';
-    }
-
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function generateSlug(): void
-    {
-        if (!$this->slug && $this->nom) {
-            $slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $this->nom), '-'));
-            $this->slug = $slug;
-        }
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): static
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -146,13 +123,25 @@ class Categorie
 
     public function removeFiltre(Filtre $filtre): static
     {
-        if ($this->filtres->removeElement($filtre)) {
-            // set the owning side to null (unless already changed)
-            if ($filtre->getCategorie() === $this) {
-                $filtre->setCategorie(null);
-            }
+        if ($this->filtres->removeElement($filtre) && $filtre->getCategorie() === $this) {
+            $filtre->setCategorie(null);
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom ?? '—';
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function generateSlug(): void
+    {
+        if (!$this->slug && $this->nom) {
+            $slug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $this->nom), '-'));
+            $this->slug = $slug;
+        }
     }
 }

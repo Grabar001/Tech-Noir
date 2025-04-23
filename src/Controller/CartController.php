@@ -20,25 +20,26 @@ class CartController extends AbstractController
     {
         $cart = $session->get('cart', []);
         $cartData = [];
-    $total = 0;
+        $total = 0;
 
-    foreach ($cart as $id => $quantity) {
-        $produit = $produitRepository->find($id);
-        if (!$produit) continue;
+        foreach ($cart as $id => $quantity) {
+            $produit = $produitRepository->find($id);
+            if (!$produit)
+                continue;
 
-        $cartData[] = [
-            'produit' => $produit,
-            'quantite' => $quantity
-        ];
+            $cartData[] = [
+                'produit' => $produit,
+                'quantite' => $quantity
+            ];
 
-        $total += $produit->getPrix() * $quantity;
-    }
+            $total += $produit->getPrix() * $quantity;
+        }
 
-    return $this->render('pages/cart.html.twig', [
-        'title' => 'Votre Panier - TECH NOIR',
-        'cart' => $cartData,
-        'total' => $total,
-    ]);
+        return $this->render('pages/cart.html.twig', [
+            'title' => 'Votre Panier - TECH NOIR',
+            'cart' => $cartData,
+            'total' => $total,
+        ]);
     }
 
     #[Route('/cart/add/{id}', name: 'cart_add')]
@@ -71,45 +72,55 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart');
     }
 
+    #[Route('/cart/clear', name: 'cart_clear')]
+    public function clearCart(SessionInterface $session): Response
+    {
+        $session->remove('cart');
+
+        $this->addFlash('success', 'Votre panier a été vidé.');
+        return $this->redirectToRoute('cart');
+    }
+
     #[Route('/checkout', name: 'checkout')]
-public function checkout(SessionInterface $session, EntityManagerInterface $em, ProduitRepository $produitRepository): Response
-{
-    $cart = $session->get('cart', []);
+    public function checkout(SessionInterface $session, EntityManagerInterface $em, ProduitRepository $produitRepository): Response
+    {
+        $cart = $session->get('cart', []);
 
-    if (empty($cart)) {
-        $this->addFlash('warning', 'Votre panier est vide.');
-        return $this->redirectToRoute('catalog');
+        if (empty($cart)) {
+            $this->addFlash('warning', 'Votre panier est vide.');
+            return $this->redirectToRoute('catalog');
+        }
+
+        $commande = new Commande();
+        $commande->setCreatedAt(new \DateTimeImmutable());
+
+        $total = 0;
+
+        foreach ($cart as $id => $quantite) {
+            $produit = $produitRepository->find($id);
+            if (!$produit)
+                continue;
+
+            $commandeProduit = new CommandeProduit();
+            $commandeProduit->setProduit($produit);
+            $commandeProduit->setQuantite($quantite);
+            $commandeProduit->setCommande($commande);
+
+            $total += $produit->getPrix() * $quantite;
+
+            $em->persist($commandeProduit);
+        }
+
+        $commande->setTotal($total);
+        $em->persist($commande);
+        $em->flush();
+
+        $session->remove('cart');
+
+        return $this->render('pages/confirmation.html.twig', [
+            'commande' => $commande,
+            'total' => $total
+        ]);
     }
 
-    $commande = new Commande();
-    $commande->setCreatedAt(new \DateTimeImmutable());
-
-    $total = 0;
-
-    foreach ($cart as $id => $quantite) {
-        $produit = $produitRepository->find($id);
-        if (!$produit) continue;
-
-        $commandeProduit = new CommandeProduit();
-        $commandeProduit->setProduit($produit);
-        $commandeProduit->setQuantite($quantite);
-        $commandeProduit->setCommande($commande);
-
-        $total += $produit->getPrix() * $quantite;
-
-        $em->persist($commandeProduit);
-    }
-
-    $commande->setTotal($total);
-    $em->persist($commande);
-    $em->flush();
-
-    $session->remove('cart');
-
-    return $this->render('pages/confirmation.html.twig', [
-        'commande' => $commande,
-        'total' => $total
-    ]);
-}
-    
 }

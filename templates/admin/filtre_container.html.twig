@@ -1,0 +1,16 @@
+{# Рендерит список чекбоксов значений фильтров #}
+{% if filtres|length > 0 %}
+    {% for filtre in filtres %}
+        <div class="mb-2">
+            <strong>{{ filtre.nom }}</strong><br>
+            {% for valeur in filtre.valeurs %}
+                <label>
+                    <input type="checkbox" name="produit_filtre_valeurs[]" value="{{ valeur.id }}">
+                    {{ valeur.valeur }}
+                </label><br>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Aucun filtre pour cette catégorie.</p>
+{% endif %}

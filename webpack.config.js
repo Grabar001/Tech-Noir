@@ -13,6 +13,9 @@ Encore
     .addEntry('catalog', './assets/catalog.js')
     .addEntry('product', './assets/product.js')
     .addEntry('catalog_home', './assets/catalog_home.js')
+    .addEntry('admin', './assets/js/admin/filtre-loader.js')
+    .addEntry('cart', './assets/cart.js')
+    
 
     .splitEntryChunks()
     .enableSingleRuntimeChunk()

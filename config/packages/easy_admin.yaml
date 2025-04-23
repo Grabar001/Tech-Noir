@@ -1,5 +1,7 @@
 easy_admin:
-    assets:
-        webpack_encore:
-            entrypoints:
-                - app
+    design:
+        assets:
+            webpack_encore:
+                entrypoints:
+                    - app
+                    - admin

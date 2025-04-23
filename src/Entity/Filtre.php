@@ -6,6 +6,8 @@ use App\Repository\FiltreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Categorie;
+use App\Entity\FiltreValeur;
 
 #[ORM\Entity(repositoryClass: FiltreRepository::class)]
 class Filtre
@@ -18,6 +20,9 @@ class Filtre
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private ?string $champ = null;
+
     #[ORM\ManyToOne(inversedBy: 'filtres')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
@@ -25,7 +30,12 @@ class Filtre
     /**
      * @var Collection<int, FiltreValeur>
      */
-    #[ORM\OneToMany(mappedBy: 'filtre', targetEntity: FiltreValeur::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(
+        mappedBy: 'filtre',
+        targetEntity: FiltreValeur::class,
+        cascade: ['persist'],
+        orphanRemoval: true
+    )]
     private Collection $filtreValeurs;
 
     public function __construct()
@@ -46,7 +56,17 @@ class Filtre
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
+        return $this;
+    }
 
+    public function getChamp(): ?string
+    {
+        return $this->champ;
+    }
+
+    public function setChamp(string $champ): static
+    {
+        $this->champ = $champ;
         return $this;
     }
 
@@ -58,7 +78,6 @@ class Filtre
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
-
         return $this;
     }
 
@@ -83,7 +102,6 @@ class Filtre
     public function removeFiltreValeur(FiltreValeur $filtreValeur): static
     {
         if ($this->filtreValeurs->removeElement($filtreValeur)) {
-            // set the owning side to null (unless already changed)
             if ($filtreValeur->getFiltre() === $this) {
                 $filtreValeur->setFiltre(null);
             }
@@ -95,19 +113,5 @@ class Filtre
     public function __toString(): string
     {
         return $this->nom ?? '';
-    }
-
-    #[ORM\Column(type: 'string', length: 50)]
-    private ?string $champ = null;
-
-    public function getChamp(): ?string
-    {
-        return $this->champ;
-    }
-
-    public function setChamp(string $champ): self
-    {
-        $this->champ = $champ;
-        return $this;
     }
 }

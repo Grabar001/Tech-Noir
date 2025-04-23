@@ -50,31 +50,33 @@
 				<div class="top-bar">
 					<h2>{{ categorie.nom }}</h2>
 
-					<div class="sort-select">
-						<form method="get" class="sort-form">
-							<label for="sort">Trier par :</label>
-							<select name="sort" id="sort" onchange="this.form.submit()">
-								<option value="">Par défaut</option>
-								<option value="reduction_desc" {% if app.request.get('sort') == 'reduction_desc' %} selected {% endif %}>Réduction ↓</option>
-								<option value="reduction_asc" {% if app.request.get('sort') == 'reduction_asc' %} selected {% endif %}>Réduction ↑</option>
-								<option value="prix_asc" {% if app.request.get('sort') == 'prix_asc' %} selected {% endif %}>Prix ↑</option>
-								<option value="prix_desc" {% if app.request.get('sort') == 'prix_desc' %} selected {% endif %}>Prix ↓</option>
-								<option value="nom_asc" {% if app.request.get('sort') == 'nom_asc' %} selected {% endif %}>Nom A → Z</option>
-								<option value="nom_desc" {% if app.request.get('sort') == 'nom_desc' %} selected {% endif %}>Nom Z → A</option>
-								<option value="stock" {% if app.request.get('sort') == 'stock' %} selected {% endif %}>Disponibilité : En stock</option>
-								<option value="rupture" {% if app.request.get('sort') == 'rupture' %} selected {% endif %}>Disponibilité : Rupture</option>
-							</select>
+					<form method="get" class="sort-form">
+						<label for="sort">Trier par :</label>
+						<select name="sort" id="sort" onchange="this.form.submit()">
+							<option value="nom_asc" {% if app.request.get('sort') == 'nom_asc' or app.request.get('sort') is null %} selected {% endif %}>Par défaut</option>
 
-							{# 🛑 Сохраняем остальные параметры фильтров #}
-							{% for key, value in app.request.query.all %}
-								{% if key starts with 'filter_' %}
-									{% for val in value %}
-										<input type="hidden" name="{{ key }}[]" value="{{ val }}">
-									{% endfor %}
-								{% endif %}
-							{% endfor %}
-						</form>
-					</div>
+							<option value="reduction_desc" {% if app.request.get('sort') == 'reduction_desc' %} selected {% endif %}>Réduction ↓</option>
+							<option value="reduction_asc" {% if app.request.get('sort') == 'reduction_asc' %} selected {% endif %}>Réduction ↑</option>
+
+							<option value="prix_asc" {% if app.request.get('sort') == 'prix_asc' %} selected {% endif %}>Prix ↑</option>
+							<option value="prix_desc" {% if app.request.get('sort') == 'prix_desc' %} selected {% endif %}>Prix ↓</option>
+
+							<option value="nom_asc" {% if app.request.get('sort') == 'nom_asc' %} selected {% endif %}>Nom A → Z</option>
+							<option value="nom_desc" {% if app.request.get('sort') == 'nom_desc' %} selected {% endif %}>Nom Z → A</option>
+
+							<option value="stock" {% if app.request.get('sort') == 'stock' %} selected {% endif %}>Disponibilité : En stock</option>
+							<option value="rupture" {% if app.request.get('sort') == 'rupture' %} selected {% endif %}>Disponibilité : Rupture</option>
+						</select>
+
+						{# ОБЯЗАТЕЛЬНО: сохраняем фильтры при сортировке #}
+						{% for key, value in app.request.query.all %}
+							{% if key starts with 'filter_' %}
+								{% for val in value %}
+									<input type="hidden" name="{{ key }}[]" value="{{ val }}">
+								{% endfor %}
+							{% endif %}
+						{% endfor %}
+					</form>
 
 					<div class="view-toggle">
 						<a href="#" class="toggle-btn grid">▦</a>

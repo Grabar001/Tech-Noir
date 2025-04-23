@@ -1,12 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commande confirmée{% endblock %}
+{% block title %}Confirmation de commande{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('cart') }}
+{% endblock %}
 
 {% block body %}
-<div class="confirmation-page">
-    <h1>Merci pour votre commande !</h1>
-    <p class="total">Total : {{ total }} €</p>
-    <p>Votre commande a bien été enregistrée.</p>
-    <a href="{{ path('catalog') }}">Retour au catalogue</a>
+<div class="confirmation-page container">
+    <h1 class="confirmation-title">✅ Merci pour votre commande !</h1>
+
+    <p class="confirmation-id">Commande n° {{ commande.id }}</p>
+
+    <table class="confirmation-table">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produit in commande.commandeProduits %}
+                <tr>
+                    <td>{{ produit.produit.nom }}</td>
+                    <td>{{ produit.quantite }}</td>
+                    <td>{{ produit.produit.prix|number_format(2, ',', ' ') }} €</td>
+                    <td>{{ (produit.quantite * produit.produit.prix)|number_format(2, ',', ' ') }} €</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3 class="confirmation-total">Total payé : {{ total|number_format(2, ',', ' ') }} €</h3>
+
+    <a href="{{ path('catalog_all') }}" class="btn-return">⬅ Retour au catalogue</a>
 </div>
 {% endblock %}

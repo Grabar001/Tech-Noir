@@ -1,32 +1,32 @@
 <?php
 
+// src/Controller/Admin/ProduitCrudController.php
 namespace App\Controller\Admin;
 
 use App\Entity\Produit;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\NumericFilter;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use App\Form\ProduitFiltreValeurSelectorType;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\{Crud, Actions, Filters, Action, KeyValueStore};
+use EasyCorp\Bundle\EasyAdminBundle\Field\{
+    IdField,
+    TextField,
+    TextareaField,
+    MoneyField,
+    IntegerField,
+    BooleanField,
+    AssociationField,
+    ImageField,
+    Field,
+    FormField
+};
+use EasyCorp\Bundle\EasyAdminBundle\Filter\{
+    EntityFilter,
+    BooleanFilter,
+    NumericFilter
+};
+use Symfony\Component\Form\FormBuilderInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Exception\EntityRemoveException;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-
 
 class ProduitCrudController extends AbstractCrudController
 {
@@ -35,47 +35,37 @@ class ProduitCrudController extends AbstractCrudController
         return Produit::class;
     }
 
-
-
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id')->hideOnForm(),
+        yield IdField::new('id')->hideOnForm();
+        yield TextField::new('nom');
+        yield TextField::new('slug')->onlyOnDetail();
+        yield TextareaField::new('description');
+        yield MoneyField::new('prix')
+            ->setCurrency('EUR')
+            ->setStoredAsCents(false);
+        yield BooleanField::new('isNew')->setLabel('🆕 Nouveau');
+        yield IntegerField::new('reduction')->setLabel('Réduction (%)');
+        yield BooleanField::new('enStock')->setLabel('En stock');
+        yield AssociationField::new('categorie')->setLabel('Catégorie');
+        yield ImageField::new('image')
+            ->setBasePath('/images/uploads/produits')
+            ->setUploadDir('public/images/uploads/produits')
+            ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
+            ->setRequired(false);
 
-            TextField::new('Nom'),
-            TextField::new('slug')->onlyOnDetail(),
-            TextareaField::new('Description'),
-            MoneyField::new('prix')
-                ->setCurrency('EUR')
-                ->setStoredAsCents(false),
 
-            BooleanField::new('isNew')
-                ->setLabel('🆕 Nouveau')
-                ->formatValue(fn($value) => $value ? 'Oui' : 'Non'),
+        yield FormField::addPanel('Filtres personnalisés');
 
-            IntegerField::new('reduction')
-                ->setLabel('Réduction (%)')
-                ->formatValue(function ($value) {
-                    if (is_numeric($value) && $value > 0) {
-                        return "🟢 -{$value}%";
-                    }
+    }
 
-                    return '—';
-                }),
-
-            BooleanField::new('enStock')
-                ->renderAsSwitch(false)
-                ->setLabel('En stock'),
-
-            AssociationField::new('categorie')->setLabel('Catégorie'),
-
-            ImageField::new('Image')
-                ->setBasePath('/images/uploads/produits')
-                ->setUploadDir('public/images/uploads/produits')
-                ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
-                ->setRequired(false),
-
-        ];
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Produit')
+            ->setEntityLabelInPlural('Produits')
+            ->setSearchFields(['nom', 'description'])
+            ->setDefaultSort(['nom' => 'ASC']);
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -88,29 +78,29 @@ class ProduitCrudController extends AbstractCrudController
             ->add(NumericFilter::new('prix'));
     }
 
-
-
-    public function deleteEntity(EntityManagerInterface $entityManager, $entity): void
-    {
-        if (count($entity->getCommandeProduits()) > 0) {
-            throw new EntityRemoveException(
-                'Impossible de supprimer ce produit car il est associé à une ou plusieurs commandes.'
-            );
-        }
-
-        parent::deleteEntity($entityManager, $entity);
-    }
     public function configureActions(Actions $actions): Actions
     {
-        $goHome = Action::new('goHome', '🏠 Accueil du site')
-            ->linkToUrl('/')
-            ->setHtmlAttributes([
-                'target' => '_blank',
-                'rel' => 'noopener noreferrer',
-                'class' => 'btn btn-primary',
-            ]);
+        return $actions->add(Crud::PAGE_INDEX, Action::new('goHome', '🏠 Accueil')->linkToUrl('/'));
+    }
 
-        return $actions
-            ->add(Crud::PAGE_INDEX, $goHome);
+    public function configureCrudFormBuilder(FormBuilderInterface $formBuilder, string $pageName, KeyValueStore $crudData): void
+    {
+        $produit = $crudData->get('entity')->getInstance();
+
+        if ($pageName === Crud::PAGE_NEW || $pageName === Crud::PAGE_EDIT) {
+            $formBuilder->add('produitFiltreValeurs', ProduitFiltreValeurSelectorType::class, [
+                'mapped' => false,
+                'required' => false,
+                'product' => $produit,
+            ]);
+        }
+    }
+
+    public function deleteEntity(EntityManagerInterface $em, $entity): void
+    {
+        if (method_exists($entity, 'getCommandeProduits') && count($entity->getCommandeProduits()) > 0) {
+            throw new EntityRemoveException('Produit lié à des commandes.');
+        }
+        parent::deleteEntity($em, $entity);
     }
 }
