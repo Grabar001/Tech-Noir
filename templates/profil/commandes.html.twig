@@ -1,34 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes commandes - TECH NOIR{% endblock %}
+{% block title %}Mes commandes - TECH NOIR
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('commandes') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('commandes') }}
+{% endblock %}
 
 {% block body %}
-<div class="container commandes-page">
-    <h1>📦 Mes commandes</h1>
+	<div class="container commandes-page">
+		<h1>📦 Mes commandes</h1>
 
-    {% if commandes is empty %}
-        <p>Vous n'avez encore passé aucune commande.</p>
-    {% else %}
-        <table class="orders-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Total</th>
-                    <th>Détails</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for commande in commandes %}
-                    <tr>
-                        <td>#{{ commande.id }}</td>
-                        <td>{{ commande.createdAt|date('d/m/Y H:i') }}</td>
-                        <td>{{ commande.total|number_format(2, ',', ' ') }} €</td>
-                        <td><a href="{{ path('commande_detail', { id: commande.id }) }}">🔍 Voir</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
-</div>
+		{% if commandes is empty %}
+			<p>Vous n'avez encore passé aucune commande.</p>
+		{% else %}
+			<table class="orders-table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Date</th>
+						<th>Total</th>
+						<th>Détails</th>
+						<th>Statut</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for commande in commandes %}
+						<tr>
+							<td>#{{ commande.id }}</td>
+							<td>{{ commande.createdAt|date('d/m/Y H:i') }}</td>
+							<td>{{ commande.total|number_format(2, ',', ' ') }}
+								€</td>
+							<td>
+								<a href="{{ path('commande_detail', { id: commande.id }) }}">🔍 Voir</a>
+							</td>
+							<td>
+								<span class="badge-status {{ commande.status }}">
+									{% if commande.status == 'en_attente' %}🕒 En attente
+										{% elseif commande.status == 'expedie' %}📦 Expédiée
+										{% elseif commande.status == 'livre' %}✅ Livrée
+										{% elseif commande.status == 'annule' %}❌ Annulée
+									{% endif %}
+								</span>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
 {% endblock %}

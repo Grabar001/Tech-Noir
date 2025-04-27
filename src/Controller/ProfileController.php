@@ -29,4 +29,18 @@ final class ProfileController extends AbstractController
         ]);
     }
 
+    #[Route('/profil/commande/{id}', name: 'commande_detail')]
+    public function commandeDetail(int $id, EntityManagerInterface $em): Response
+    {
+        $commande = $em->getRepository(Commande::class)->find($id);
+
+        if (!$commande) {
+            throw $this->createNotFoundException('Commande introuvable.');
+        }
+
+        return $this->render('profil/commande_detail.html.twig', [
+            'commande' => $commande
+        ]);
+    }
+
 }

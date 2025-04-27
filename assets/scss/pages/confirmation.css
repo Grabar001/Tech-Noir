@@ -1,0 +1,62 @@
+.confirmation-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 2rem;
+  background-color: #F6F6F6;
+}
+.confirmation-page .confirmation-card {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+.confirmation-page .confirmation-card .icon-check {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #091D9E;
+}
+.confirmation-page .confirmation-card h1 {
+  color: #0C0C0C;
+  margin-bottom: 1rem;
+}
+.confirmation-page .confirmation-card p {
+  color: #59006F;
+  font-size: 1rem;
+  margin: 0.3rem 0;
+}
+.confirmation-page .confirmation-card strong {
+  color: #260DC1;
+}
+.confirmation-page .confirmation-card .confirmation-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.confirmation-page .confirmation-card .confirmation-actions .btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+.confirmation-page .confirmation-card .confirmation-actions .btn.btn-primary {
+  background-color: #091D9E;
+  color: #fff;
+}
+.confirmation-page .confirmation-card .confirmation-actions .btn.btn-primary:hover {
+  background-color: #260DC1;
+}
+.confirmation-page .confirmation-card .confirmation-actions .btn.btn-secondary {
+  background-color: #EBBA1A;
+  color: #0C0C0C;
+}
+.confirmation-page .confirmation-card .confirmation-actions .btn.btn-secondary:hover {
+  background-color: #C1C1C1;
+}/*# sourceMappingURL=confirmation.css.map */

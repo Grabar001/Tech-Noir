@@ -1,0 +1,25 @@
+public function configureFields(string $pageName): iterable
+{
+    yield IdField::new('id')->hideOnForm();
+    yield DateTimeField::new('createdAt', 'Date de commande');
+    yield MoneyField::new('total')->setCurrency('EUR');
+
+    yield ChoiceField::new('status', 'Statut')
+        ->setChoices([
+            '🕒 En attente' => 'en_attente',
+            '📦 Expédiée' => 'expedie',
+            '✅ Livrée' => 'livre',
+            '❌ Annulée' => 'annule',
+        ])
+        ->renderAsBadges([
+            'en_attente' => 'warning',
+            'expedie' => 'info',
+            'livre' => 'success',
+            'annule' => 'danger',
+        ]);
+
+    yield CollectionField::new('commandeProduits')
+        ->onlyOnDetail()
+        ->setTemplatePath('admin/fields/commande_produits.html.twig')
+        ->setLabel('Produits commandés');
+}

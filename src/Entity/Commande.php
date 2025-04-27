@@ -21,8 +21,11 @@ class Commande
     #[ORM\Column]
     private ?float $total = null;
 
-    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: CommandeProduit::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: CommandeProduit::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $commandeProduits;
+
+    #[ORM\Column(type: 'string', length: 50)]
+    private string $status = 'en_attente';
 
     public function __construct()
     {
@@ -79,6 +82,17 @@ class Commande
             }
         }
 
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
         return $this;
     }
 }

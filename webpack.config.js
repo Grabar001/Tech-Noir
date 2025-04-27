@@ -15,6 +15,8 @@ Encore
     .addEntry('catalog_home', './assets/catalog_home.js')
     .addEntry('admin', './assets/js/admin/filtre-loader.js')
     .addEntry('cart', './assets/cart.js')
+    .addEntry('confirmation', './assets/confirmation.js')
+    .addEntry('commandes', './assets/commandes.js')
     
 
     .splitEntryChunks()

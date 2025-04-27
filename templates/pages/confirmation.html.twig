@@ -1,41 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Confirmation de commande{% endblock %}
+{% block title %}✅ Confirmation de commande - TECH NOIR{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('cart') }}
+    {{ encore_entry_link_tags('confirmation') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('confirmation') }}
 {% endblock %}
 
 {% block body %}
 <div class="confirmation-page container">
-    <h1 class="confirmation-title">✅ Merci pour votre commande !</h1>
+    <div class="confirmation-card">
+        <div class="icon-check">✅</div>
+        <h1>Merci pour votre commande !</h1>
 
-    <p class="confirmation-id">Commande n° {{ commande.id }}</p>
+        <p>Votre commande a bien été enregistrée.</p>
+        <p><strong>Numéro de commande :</strong> #{{ commande.id }}</p>
+        <p><strong>Date :</strong> {{ commande.createdAt|date('d/m/Y H:i') }}</p>
+        <p><strong>Total :</strong> {{ total|number_format(2, ',', ' ') }} €</p>
 
-    <table class="confirmation-table">
-        <thead>
-            <tr>
-                <th>Produit</th>
-                <th>Quantité</th>
-                <th>Prix unitaire</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for produit in commande.commandeProduits %}
-                <tr>
-                    <td>{{ produit.produit.nom }}</td>
-                    <td>{{ produit.quantite }}</td>
-                    <td>{{ produit.produit.prix|number_format(2, ',', ' ') }} €</td>
-                    <td>{{ (produit.quantite * produit.produit.prix)|number_format(2, ',', ' ') }} €</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <h3 class="confirmation-total">Total payé : {{ total|number_format(2, ',', ' ') }} €</h3>
-
-    <a href="{{ path('catalog_all') }}" class="btn-return">⬅ Retour au catalogue</a>
+        <div class="confirmation-actions">
+            <a href="{{ path('catalog_all') }}" class="btn btn-primary">⬅ Retour au catalogue</a>
+            <a href="{{ path('profil_commandes') }}" class="btn btn-secondary">📦 Voir mes commandes</a>
+        </div>
+    </div>
 </div>
 {% endblock %}
