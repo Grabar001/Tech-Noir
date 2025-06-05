@@ -24,41 +24,77 @@
 	}
 
 	.filter-panel {
-		width: 250px;
+	width: 250px;
+	padding: 1.5rem;
+	border-radius: 1.5rem;
+	background: rgba(15, 15, 30, 0.65); // тёмный стеклянный фон
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+	border: 1px solid rgba(121, 121, 175, 0.2);
+	color: #F6F6F6;
 
-		h3 {
-			font-size: 1.4rem;
-			margin-bottom: 1rem;
+	h3 {
+		font-size: 1.5rem;
+		margin-bottom: 1.2rem;
+		color: #BCC5FF;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.filter-group {
+		margin-bottom: 1.8rem;
+
+		h4 {
+			font-size: 1.1rem;
+			margin-bottom: 0.6rem;
+			color: #EBBA1A;
+			font-weight: 600;
+			letter-spacing: 0.5px;
 		}
 
-		.filter-group {
-			margin-bottom: 1rem;
-
-			h4 {
-				font-size: 1.1rem;
-				margin-bottom: 0.5rem;
-			}
-
-			.filter-option {
-				display: block;
-				margin-bottom: 0.4rem;
-				font-size: 0.95rem;
-			}
-		}
-
-		.btn-filter {
-			background-color: #260DC1;
-			color: white;
-			padding: 0.5rem 1rem;
-			border: none;
-			border-radius: 0.5rem;
+		.filter-option {
+			display: flex;
+			align-items: center;
+			margin-bottom: 0.5rem;
+			font-size: 0.95rem;
+			color: #E0E0E0;
 			cursor: pointer;
 
+			input[type="checkbox"] {
+				accent-color: #750DC5;
+				margin-right: 0.5rem;
+				width: 16px;
+				height: 16px;
+				border-radius: 3px;
+			}
+
 			&:hover {
-				background-color: #750DC5;
+				color: #FFFFFF;
 			}
 		}
 	}
+
+	.btn-filter {
+		display: block;
+		width: 100%;
+		padding: 0.6rem 1rem;
+		margin-top: 0.5rem;
+		background: linear-gradient(to right, #260DC1, #59006F);
+		color: #ffffff;
+		font-weight: bold;
+		border: none;
+		border-radius: 0.6rem;
+		cursor: pointer;
+		text-align: center;
+		transition: background 0.3s ease, transform 0.2s ease;
+
+		&:hover {
+			background: linear-gradient(to right, #750DC5, #091D9E);
+			transform: translateY(-2px);
+		}
+	}
+}
 
 	.product-panel {
 		flex: 1;
