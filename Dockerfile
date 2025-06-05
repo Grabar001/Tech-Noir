@@ -1,35 +1,25 @@
-# syntax=docker/dockerfile:1
 
-FROM php:8.3-apache
+FROM php:8.2-cli
 
-# Установка нужных PHP-расширений
+
 RUN apt-get update && apt-get install -y \
-    git \
     unzip \
-    libicu-dev \
+    git \
+    zip \
     libpq-dev \
     libzip-dev \
-    zip \
-    && docker-php-ext-install intl pdo pdo_mysql zip opcache
+    && docker-php-ext-install pdo pdo_mysql zip
 
-# Установка Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Копируем проект
-COPY . /var/www/html
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
 
-# Работаем из директории Symfony
-WORKDIR /var/www/html
 
-# Установка зависимостей
+WORKDIR /app
+COPY . .
+
+
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Настройки Apache
-RUN a2enmod rewrite
-COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
 
-# Symfony ENV
-ENV APP_ENV=prod
-
-# Порт для Render
-EXPOSE 80
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
