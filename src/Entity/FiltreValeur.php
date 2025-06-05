@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Filtre;
-use App\Entity\ProduitFiltreValeur;
+use App\Entity\Produit;
 
 #[ORM\Entity(repositoryClass: FiltreValeurRepository::class)]
 class FiltreValeur
@@ -24,20 +24,12 @@ class FiltreValeur
     #[ORM\JoinColumn(nullable: false)]
     private ?Filtre $filtre = null;
 
-    /**
-     * @var Collection<int, ProduitFiltreValeur>
-     */
-    #[ORM\OneToMany(
-        mappedBy: 'filtreValeur',
-        targetEntity: ProduitFiltreValeur::class,
-        cascade: ['persist'],
-        orphanRemoval: true
-    )]
-    private Collection $produitFiltreValeurs;
+    #[ORM\ManyToMany(targetEntity: Produit::class, mappedBy: 'filtreValeurs')]
+    private Collection $produits;
 
     public function __construct()
     {
-        $this->produitFiltreValeurs = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,33 +59,9 @@ class FiltreValeur
         return $this;
     }
 
-    /**
-     * @return Collection<int, ProduitFiltreValeur>
-     */
-    public function getProduitFiltreValeurs(): Collection
+    public function getProduits(): Collection
     {
-        return $this->produitFiltreValeurs;
-    }
-
-    public function addProduitFiltreValeur(ProduitFiltreValeur $produitFiltreValeur): static
-    {
-        if (!$this->produitFiltreValeurs->contains($produitFiltreValeur)) {
-            $this->produitFiltreValeurs->add($produitFiltreValeur);
-            $produitFiltreValeur->setFiltreValeur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduitFiltreValeur(ProduitFiltreValeur $produitFiltreValeur): static
-    {
-        if ($this->produitFiltreValeurs->removeElement($produitFiltreValeur)) {
-            if ($produitFiltreValeur->getFiltreValeur() === $this) {
-                $produitFiltreValeur->setFiltreValeur(null);
-            }
-        }
-
-        return $this;
+        return $this->produits;
     }
 
     public function __toString(): string

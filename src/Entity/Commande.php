@@ -27,6 +27,10 @@ class Commande
     #[ORM\Column(type: 'string', length: 50)]
     private string $status = 'en_attente';
 
+    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->commandeProduits = new ArrayCollection();
@@ -93,6 +97,18 @@ class Commande
     public function setStatus(string $status): self
     {
         $this->status = $status;
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
         return $this;
     }
 }

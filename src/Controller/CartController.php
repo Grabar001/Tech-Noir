@@ -94,6 +94,7 @@ class CartController extends AbstractController
         $commande = new Commande();
         $commande->setCreatedAt(new \DateTimeImmutable());
         $commande->setStatus('en_attente');
+        $commande->setUser($this->getUser());
 
         $total = 0;
 

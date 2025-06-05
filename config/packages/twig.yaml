@@ -1,6 +1,4 @@
 twig:
-    form_themes:
-        - 'admin/fields/_produit_filtre_valeur_widget.html.twig'
     file_name_pattern: '*.twig'
     default_path: '%kernel.project_dir%/templates'
     globals:

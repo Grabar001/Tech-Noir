@@ -26,7 +26,6 @@
 
 		<div
 			class="catalog-layout">
-			{# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ LEFT FILTER PANEL ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #}
 			<aside class="filter-panel">
 				<form method="get">
 					<h3>Filtres</h3>
@@ -35,7 +34,13 @@
 							<h4>{{ filtre.nom }}</h4>
 							{% for valeur in filtre.filtreValeurs %}
 								<label class="filter-option">
-									<input type="checkbox" name="filter_{{ filtre.id }}[]" value="{{ valeur.valeur }}" id="valeur_{{ valeur.id }}" {% if valeur.valeur in app.request.get('filter_' ~ filtre.id)|default([]) %} checked {% endif %}>
+									{% set selectedValeurs = app.request.query.all['filter_' ~ filtre.id] ?? [] %}
+									<input
+									  type="checkbox"
+									  name="filter_{{ filtre.id }}[]"
+									  value="{{ valeur.valeur }}"
+									  id="valeur_{{ valeur.id }}"
+									  {% if valeur.valeur in selectedValeurs %}checked{% endif %}>
 									{{ valeur.valeur }}
 								</label>
 							{% endfor %}
@@ -45,7 +50,7 @@
 				</form>
 			</aside>
 
-			{# ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ RIGHT PRODUCT PANEL ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ #}
+			
 			<main class="product-panel">
 				<div class="top-bar">
 					<h2>{{ categorie.nom }}</h2>
@@ -90,7 +95,7 @@
 							{% if produit.reduction %}
 								<div class="badge discount">-{{ produit.reduction }}%</div>
 							{% endif %}
-							{% if produit.isNew %}
+							{% if produit.nouveau %}
 								<div class="badge new">NEW</div>
 							{% endif %}
 

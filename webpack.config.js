@@ -13,10 +13,15 @@ Encore
     .addEntry('catalog', './assets/catalog.js')
     .addEntry('product', './assets/product.js')
     .addEntry('catalog_home', './assets/catalog_home.js')
-    .addEntry('admin', './assets/js/admin/filtre-loader.js')
     .addEntry('cart', './assets/cart.js')
     .addEntry('confirmation', './assets/confirmation.js')
     .addEntry('commandes', './assets/commandes.js')
+    .addEntry('search', './assets/scss/search.scss')
+    .addEntry('admin', './assets/js/admin.js')
+    .addEntry('auth', './assets/scss/auth.scss')
+    .addEntry('conditions', './assets/scss/pages/conditions.scss')
+   
+  
     
 
     .splitEntryChunks()

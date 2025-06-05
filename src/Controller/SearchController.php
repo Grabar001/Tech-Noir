@@ -25,7 +25,7 @@ class SearchController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        return $this->render('search/search_results.html.twig', [
+        return $this->render('search/index.html.twig', [
             'query' => $query,
             'produits' => $produits,
         ]);

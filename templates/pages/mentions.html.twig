@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales - TECH NOIR{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+   {{ encore_entry_link_tags('conditions') }}
+{% endblock %}
+{% block body %}
+<section class="legal-page">
+  <div class="legal-card">
+    <h1>Mentions Légales</h1>
+
+    <h2>1. Éditeur du site</h2>
+    <p>Le site <strong>TECH NOIR</strong> est édité par :</p>
+    <ul>
+      <p>Nom de l’entreprise : TECH NOIR</p>
+      <p>Adresse : 17 Avenue de Saxe, 75007 Paris, France</p>
+      <p>Email : <a href="mailto:contact@technoir.fr">contact@technoir.fr</a></p>
+      <p>SIRET : 000 000 000 00000</p>
+      <p>Directeur de la publication : Albert Grabar</p>
+    </ul>
+
+    <h2>2. Hébergement</h2>
+    <p>Le site est hébergé par :</p>
+    <ul>
+      <p>Hébergeur : MAMP Pro (en développement local)</p>
+      <p>Adresse : 8 Linzergasse, 5020 Salzburg, Autriche</p>
+    </ul>
+
+    <h2>3. Propriété intellectuelle</h2>
+    <p>Tous les éléments graphiques, textes, illustrations, logos et icônes présents sur le site sont la propriété exclusive de TECH NOIR, sauf mention contraire.</p>
+    <p>Toute reproduction, diffusion ou exploitation, même partielle, sans autorisation expresse, est strictement interdite.</p>
+
+    <h2>4. Protection des données personnelles</h2>
+    <p>Les informations collectées sont traitées conformément au Règlement Général sur la Protection des Données (RGPD). L’utilisateur dispose d’un droit d’accès, de rectification, de suppression et d’opposition aux données le concernant, en envoyant un email à <a href="mailto:contact@technoir.fr">contact@technoir.fr</a>.</p>
+
+    <h2>5. Cookies</h2>
+    <p>Le site TECH NOIR peut utiliser des cookies pour améliorer l’expérience utilisateur. En naviguant sur ce site, vous acceptez l’utilisation de cookies.</p>
+
+    <h2>6. Responsabilité</h2>
+    <p>TECH NOIR ne pourra être tenu responsable des dommages résultant d’une mauvaise utilisation du site ou de tout dysfonctionnement technique indépendant de sa volonté.</p>
+
+    <p>Dernière mise à jour : juin 2025.</p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,8 @@
+{
+  "controllers": {
+    "filtre": {
+      "enabled": true,
+      "fetch": "eager"
+    }
+  }
+}

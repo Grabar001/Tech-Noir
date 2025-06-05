@@ -3,19 +3,7 @@
 @import '../footer';
 @import 'slideshow';
 @import 'categories';
-@import 'promos';
+@import '../app.scss';
 
-.fade-in {
-	animation: fadeInUp 1s ease-out both;
-}
 
-@keyframes fadeInUp {
-	from {
-		opacity: 0;
-		transform: translateY(30px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
+

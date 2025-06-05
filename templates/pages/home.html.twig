@@ -6,11 +6,13 @@
 {% block stylesheets %}
 	{{ parent() }}
 	{{ encore_entry_link_tags('home') }}
+	{{ encore_entry_link_tags('app') }}
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags('home') }}
+	{{ encore_entry_script_tags('app') }}
 {% endblock %}
 
 {% block body %}
@@ -48,45 +50,13 @@
 			</div>
 		</section>
 
-		<section class="promos fade-in">
-			<h3 class="promo-title">
-				<a href="{{ path('promotion') }}">Promotion</a>
-			</h3>
+		<div class="promo-video-container">
+			<video class="promo-video" autoplay muted loop>
+				<source src="{{ asset('videos/promo.mp4') }}" type="video/mp4">
+				Votre navigateur ne supporte pas la vidéo.
+			</video>
+		</div>
 
-			<div class="promo-container">
-				<button class="arrow left" onclick="scrollPromos('left')">
-					<i class="fas fa-chevron-left"></i>
-				</button>
-
-				<div class="promo-scroll-wrapper">
-					{% for produit in produits %}
-						<div
-							class="product-card">
-							{# ... всё как раньше ... #}
-							<img src="{{ asset('images/uploads/produits/' ~ produit.image) }}" alt="{{ produit.nom }}">
-							<h4>{{ produit.nom }}</h4>
-
-							{% if produit.reduction %}
-								<div class="discount">-{{ produit.reduction }}%</div>
-								<p class="old-price">{{ produit.prix|number_format(2, ',', ' ') }}
-									€</p>
-								<p class="new-price">{{ produit.prixAvecReduction|number_format(2, ',', ' ') }}
-									€</p>
-							{% else %}
-								<p class="new-price">{{ produit.prix|number_format(2, ',', ' ') }}
-									€</p>
-							{% endif %}
-
-							<button>Ajouter au panier</button>
-						</div>
-					{% endfor %}
-				</div>
-
-				<button class="arrow right" onclick="scrollPromos('right')">
-					<i class="fas fa-chevron-right"></i>
-				</button>
-			</div>
-		</section>
 
 	</div>
 {% endblock %}

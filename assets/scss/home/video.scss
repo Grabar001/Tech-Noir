@@ -1,0 +1,16 @@
+.promo-video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: bisque; 
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+.promo-video {
+    width: 100%;
+    max-width: 1280px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(235, 186, 26, 0.4); 
+    object-fit: cover;
+}
