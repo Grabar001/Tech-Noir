@@ -3,6 +3,6 @@
 node_modules
 var/
 vendor/
-.env
+# .env
 .env.local
 tests
