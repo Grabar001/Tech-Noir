@@ -24,5 +24,6 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 COPY . .
 
+RUN chmod +x /app/entrypoint.sh
 
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+CMD ["./entrypoint.sh"]
