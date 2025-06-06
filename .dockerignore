@@ -4,5 +4,4 @@
 .git
 Dockerfile
 docker-compose.yml
-entrypoint.sh
 *.log

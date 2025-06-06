@@ -26,14 +26,11 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 COPY . .
 
-
+COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
-
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 
-
 EXPOSE 8000
-
 
 CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
