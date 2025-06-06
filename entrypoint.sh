@@ -1,10 +1,10 @@
 #!/bin/sh
+set -e
 
-# Установка зависимостей, если их нет
-if [ ! -f /app/vendor/autoload_runtime.php ]; then
-  echo "Installing dependencies..."
-  composer install --no-dev --optimize-autoloader
+# Проверка наличия .env
+if [ ! -f ".env" ]; then
+    echo ".env file not found, copying from .env.example"
+    cp .env.example .env
 fi
 
-# Запуск PHP-сервера
-php -S 0.0.0.0:8000 -t public
+exec "$@"

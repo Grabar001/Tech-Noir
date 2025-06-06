@@ -1,27 +1,39 @@
-FROM php:8.2-cli
+# syntax=docker/dockerfile:1
+
+FROM php:8.2-fpm
+
 
 RUN apt-get update && apt-get install -y \
-    unzip \
     git \
+    unzip \
     zip \
+    curl \
     libpq-dev \
     libzip-dev \
-    wget \
-    && docker-php-ext-install pdo pdo_mysql zip
+    && docker-php-ext-install pdo pdo_pgsql zip
 
-RUN curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 
 WORKDIR /app
 
+
 COPY composer.json composer.lock ./
 
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
 
 COPY . .
 
-COPY .env .env
 
 RUN chmod +x /app/entrypoint.sh
 
-CMD ["./entrypoint.sh"]
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+
+EXPOSE 8000
+
+
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]

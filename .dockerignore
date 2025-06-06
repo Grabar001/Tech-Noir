@@ -1,8 +1,8 @@
+/vendor
+/node_modules
+/tests
 .git
-.gitignore
-node_modules
-var/
-vendor/
-# .env
-.env.local
-tests
+Dockerfile
+docker-compose.yml
+entrypoint.sh
+*.log
