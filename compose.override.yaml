@@ -31,3 +31,6 @@ services:
     environment:
       DATABASE_URL: postgres://app:technoirpass123@database:5432/app
       MAILER_DSN: smtp://mailer:1025
+      APP_ENV: dev
+      APP_DEBUG: 1
+      APP_SECRET: 6f4bcd9e21774cfc9a4bd7087d223fd4
