@@ -1,0 +1,40 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: tech-noir-app
+    depends_on:
+      - database
+    environment:
+      DATABASE_URL: postgres://app:technoirpass123@database:5432/app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+
+  database:
+    image: postgres:16-alpine
+    container_name: tech-noir-db
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: technoirpass123
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  mailer:
+    image: axllent/mailpit
+    container_name: tech-noir-mailer
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  database_data:
+    driver: local

@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     && docker-php-ext-install pdo pdo_pgsql zip
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
@@ -26,7 +26,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 COPY . .
 
-COPY entrypoint.sh /app/entrypoint.sh
+
 RUN chmod +x /app/entrypoint.sh
 
 ENTRYPOINT ["/app/entrypoint.sh"]

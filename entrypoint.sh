@@ -1,10 +1,13 @@
-#!/bin/sh
-set -e
 
-# Проверка наличия .env
-if [ ! -f ".env" ]; then
-    echo ".env file not found, copying from .env.example"
-    cp .env.example .env
-fi
+
+
+until pg_isready -h database -U app; do
+  echo "Ждём базу данных..."
+  sleep 2
+done
+
+
+php bin/console doctrine:migrations:migrate --no-interaction
+
 
 exec "$@"
