@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\CommandeProduit;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -37,6 +38,9 @@ class Produit
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: CommandeProduit::class, cascade: ['remove'])]
+    private Collection $commandeProduits;
+
     #[ORM\ManyToOne(targetEntity: Categorie::class, inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
@@ -44,10 +48,11 @@ class Produit
     #[ORM\ManyToMany(targetEntity: FiltreValeur::class, inversedBy: 'produits')]
     private Collection $filtreValeurs;
 
-    public function __construct()
-    {
-        $this->filtreValeurs = new ArrayCollection();
-    }
+  public function __construct()
+{
+    $this->filtreValeurs = new ArrayCollection();
+    $this->commandeProduits = new ArrayCollection();
+}
 
     public function getId(): ?int
     {
@@ -171,4 +176,30 @@ class Produit
         }
         return $this->prix;
     }
+
+    public function getCommandeProduits(): Collection
+{
+    return $this->commandeProduits;
+}
+
+public function addCommandeProduit(CommandeProduit $commandeProduit): self
+{
+    if (!$this->commandeProduits->contains($commandeProduit)) {
+        $this->commandeProduits[] = $commandeProduit;
+        $commandeProduit->setProduit($this);
+    }
+
+    return $this;
+}
+
+public function removeCommandeProduit(CommandeProduit $commandeProduit): self
+{
+    if ($this->commandeProduits->removeElement($commandeProduit)) {
+        if ($commandeProduit->getProduit() === $this) {
+            $commandeProduit->setProduit(null);
+        }
+    }
+
+    return $this;
+}
 }
