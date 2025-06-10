@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 
-composer dump-autoload --optimize
+php bin/console cache:clear
+php bin/console doctrine:migrations:migrate --no-interaction || true
 
 exec "$@"
