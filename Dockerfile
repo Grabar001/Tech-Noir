@@ -1,21 +1,20 @@
-FROM php:8.2-fpm
+FROM php:8.3-cli
+
 
 RUN apt-get update && apt-get install -y \
-    git unzip zip curl \
-    libpq-dev libzip-dev \
-    && docker-php-ext-install pdo pdo_pgsql zip
+    git \
+    unzip \
+    libpq-dev \
+    && docker-php-ext-install pdo_pgsql
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
-
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-RUN chmod +x /app/entrypoint.sh
+RUN composer install --no-dev --optimize-autoloader
 
-ENTRYPOINT ["/app/entrypoint.sh"]
 
-EXPOSE 8000
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+EXPOSE 80
+CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
