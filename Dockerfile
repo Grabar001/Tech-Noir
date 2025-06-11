@@ -11,8 +11,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY . .
 
-RUN composer install --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
