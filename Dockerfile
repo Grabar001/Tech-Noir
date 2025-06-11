@@ -1,6 +1,5 @@
 FROM php:8.3-cli
 
-
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -12,9 +11,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY . .
 
-
 RUN composer install --no-dev --optimize-autoloader
 
+EXPOSE 8000
 
-EXPOSE 80
-CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
+CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
