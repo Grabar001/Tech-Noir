@@ -11,8 +11,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader && composer dump-env prod
+RUN mkdir -p var/cache var/log && chmod -R 777 var
 
 EXPOSE 8000
-
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
