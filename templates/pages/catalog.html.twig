@@ -73,7 +73,7 @@
 							<option value="rupture" {% if app.request.get('sort') == 'rupture' %} selected {% endif %}>Disponibilité : Rupture</option>
 						</select>
 
-						{# ОБЯЗАТЕЛЬНО: сохраняем фильтры при сортировке #}
+						
 						{% for key, value in app.request.query.all %}
 							{% if key starts with 'filter_' %}
 								{% for val in value %}
